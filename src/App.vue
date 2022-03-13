@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <router-view />
-    <hr />
-    <Nav />
   </div>
 </template>
 
 <script>
-import Nav from "@/components/Nav.vue";
-export default {
-  components: { Nav },
-};
+export default {};
 </script>
 
 <style lang="scss">
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

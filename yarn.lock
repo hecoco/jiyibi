@@ -7032,7 +7032,7 @@
     "json5" "^0.5.0"
     "object-assign" "^4.0.1"
 
-"loader-utils@^1.0.2", "loader-utils@^1.1.0", "loader-utils@^1.2.3", "loader-utils@^1.4.0":
+"loader-utils@^1.0.2", "loader-utils@^1.0.3", "loader-utils@^1.1.0", "loader-utils@^1.2.3", "loader-utils@^1.4.0":
   "integrity" "sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA=="
   "resolved" "https://registry.npmmirror.com/loader-utils/-/loader-utils-1.4.0.tgz"
   "version" "1.4.0"
@@ -10117,7 +10117,16 @@
     "mitt" "1.1.2"
     "svg-baker" "^1.7.0"
 
-"svg-baker@^1.5.0", "svg-baker@^1.7.0":
+"svg-baker-runtime@1.4.1":
+  "integrity" "sha512-4HLs8dU5kP4+zWix3MoZUge7kSVO6VCg14dLJWVIRWZx1vik21k/h5T620VXRoIyn0nw8g1R8Qk+VvW9BLOOPA=="
+  "resolved" "https://registry.npmmirror.com/svg-baker-runtime/-/svg-baker-runtime-1.4.1.tgz"
+  "version" "1.4.1"
+  dependencies:
+    "deepmerge" "1.3.2"
+    "mitt" "1.1.2"
+    "svg-baker" "^1.4.0"
+
+"svg-baker@^1.4.0", "svg-baker@^1.4.1", "svg-baker@^1.5.0", "svg-baker@^1.7.0":
   "integrity" "sha512-nibslMbkXOIkqKVrfcncwha45f97fGuAOn1G99YwnwTj8kF9YiM6XexPcUso97NxOm6GsP0SIvYVIosBis1xLg=="
   "resolved" "https://registry.npmmirror.com/svg-baker/-/svg-baker-1.7.0.tgz"
   "version" "1.7.0"
@@ -10136,15 +10145,31 @@
     "query-string" "^4.3.2"
     "traverse" "^0.6.6"
 
-"svg-sprite-loader@6.0.9":
-  "integrity" "sha512-V/F3iI1J/xWeO0cRXkEFvhujvBQ3deAPFlhip+AW00Hs+9gighu619mblucIWdRPmDMfcSWJD/ZuXf6HldIskw=="
-  "resolved" "https://registry.npmmirror.com/svg-sprite-loader/-/svg-sprite-loader-6.0.9.tgz"
-  "version" "6.0.9"
+"svg-sprite-loader-mod@^4.1.6-mod1":
+  "integrity" "sha512-hK3eUAWIUE0KuG2PtWlNDrCXVdQQdVFfKn+bJSsSfPpxC+91TESVCLiIL1laofgAZmbL1h9kCiVy1PAUhcAXFg=="
+  "resolved" "https://registry.npmmirror.com/svg-sprite-loader-mod/-/svg-sprite-loader-mod-4.1.6-mod1.tgz"
+  "version" "4.1.6-mod1"
   dependencies:
     "bluebird" "^3.5.0"
     "deepmerge" "1.3.2"
     "domready" "1.0.8"
     "escape-string-regexp" "1.0.5"
+    "html-webpack-plugin" "^3.2.0"
+    "loader-utils" "^1.1.0"
+    "svg-baker" "^1.4.1"
+    "svg-baker-runtime" "1.4.1"
+    "url-slug" "2.0.0"
+
+"svg-sprite-loader@^4.1.6":
+  "integrity" "sha512-IkXI2e0bWr32G6VCqw0g8x8eRsMSUKkyd3axnI6D5pEZ9zv3Zi7FTVVnOUi/Io3i2D1UAofOW+35N8qwIUql4w=="
+  "resolved" "https://registry.npmmirror.com/svg-sprite-loader/-/svg-sprite-loader-4.3.0.tgz"
+  "version" "4.3.0"
+  dependencies:
+    "bluebird" "^3.5.0"
+    "deepmerge" "1.3.2"
+    "domready" "1.0.8"
+    "escape-string-regexp" "1.0.5"
+    "html-webpack-plugin" "^3.2.0"
     "loader-utils" "^1.1.0"
     "svg-baker" "^1.5.0"
     "svg-baker-runtime" "^1.4.7"
@@ -10154,6 +10179,14 @@
   "integrity" "sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA=="
   "resolved" "https://registry.npmmirror.com/svg-tags/-/svg-tags-1.0.0.tgz"
   "version" "1.0.0"
+
+"svgo-loader@^2.2.1":
+  "integrity" "sha512-UeE/4yZEK96LoYqvxwh8YqCOJCjXwRY9K6YT99vXE+nYhs/W8hAY2hNf5zg/lRsyKshJkR79V+4beV3cbGL40Q=="
+  "resolved" "https://registry.npmmirror.com/svgo-loader/-/svgo-loader-2.2.2.tgz"
+  "version" "2.2.2"
+  dependencies:
+    "js-yaml" "^3.13.1"
+    "loader-utils" "^1.0.3"
 
 "svgo@^1.0.0":
   "integrity" "sha512-yhy/sQYxR5BkC98CY7o31VGsg014AKLEPxdfhora76l36hD9Rdy5NZA/Ocn6yayNPgSamYdtX2rFJdcv07AYVw=="
