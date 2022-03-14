@@ -10180,7 +10180,7 @@
   "resolved" "https://registry.npmmirror.com/svg-tags/-/svg-tags-1.0.0.tgz"
   "version" "1.0.0"
 
-"svgo-loader@^2.2.1":
+"svgo-loader@^2.2.2":
   "integrity" "sha512-UeE/4yZEK96LoYqvxwh8YqCOJCjXwRY9K6YT99vXE+nYhs/W8hAY2hNf5zg/lRsyKshJkR79V+4beV3cbGL40Q=="
   "resolved" "https://registry.npmmirror.com/svgo-loader/-/svgo-loader-2.2.2.tgz"
   "version" "2.2.2"
