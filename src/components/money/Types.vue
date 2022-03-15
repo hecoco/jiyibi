@@ -10,13 +10,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Types extends Vue {
-  @Prop(String) readonly value!: string;
-
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  @Prop(String) readonly type!: string;
+  // type = "-";
   selectType(type: string) {
     if (type !== "-" && type !== "+") {
       throw new Error("type is unknown");
