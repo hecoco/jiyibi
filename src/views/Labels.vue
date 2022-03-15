@@ -16,10 +16,16 @@
         <div class="tag" @click="coll($event)">
           {{ tag.name }} <Icon name="right" />
         </div>
-        <div class="contenta"><span>内容</span></div>
+        <div class="contenta">
+          <div>
+            <But>修改</But>
+            <But>删除</But>
+          </div>
+          <div>支出输入</div>
+        </div>
       </div>
       <div class="addTag-wrapper">
-        <button class="addTag" @click="addTag">新建</button>
+        <But class="addTag" @click.native="addTag">新建</But>
       </div>
     </div>
   </layout>
@@ -29,8 +35,12 @@
 import Vue from "vue";
 import { tagsListModel } from "@/models/tagsListModel";
 import { Component } from "vue-property-decorator";
+import But from "@/components/But.vue";
 tagsListModel.fetch();
-@Component
+const list = window.localStorage.getItem("recodList");
+@Component({
+  components: { But },
+})
 export default class Labels extends Vue {
   tagsList = tagsListModel.data;
   addTag() {
@@ -45,6 +55,12 @@ export default class Labels extends Vue {
     }
   }
   coll(event: MouseEvent) {
+    console.log(
+      new Date(+new Date() + 8 * 3600 * 1000)
+        .toJSON()
+        .substr(0, 19)
+        .replace("T", " ")
+    );
     const but = event.target as HTMLButtonElement;
     console.log(event);
     const content = but.nextSibling as HTMLButtonElement;
