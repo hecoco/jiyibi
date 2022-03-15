@@ -1,6 +1,6 @@
 <template>
   <layout>
-    <div class="tags">
+    <!-- <div class="tags">
       <router-link
         class="tag"
         :to="`/labels/edit/${tag.id}`"
@@ -10,9 +10,17 @@
         <span>{{ tag.name }}</span>
         <Icon name="right" />
       </router-link>
-    </div>
-    <div class="addTag-wrapper">
-      <button class="addTag" @click="addTag">新建</button>
+    </div> -->
+    <div class="tags">
+      <div v-for="tag in tagsList" :key="tag.id">
+        <div class="tag" @click="coll($event)">
+          {{ tag.name }} <Icon name="right" />
+        </div>
+        <div class="contenta"><span>内容</span></div>
+      </div>
+      <div class="addTag-wrapper">
+        <button class="addTag" @click="addTag">新建</button>
+      </div>
     </div>
   </layout>
 </template>
@@ -36,6 +44,19 @@ export default class Labels extends Vue {
       }
     }
   }
+  coll(event: MouseEvent) {
+    const but = event.target as HTMLButtonElement;
+    console.log(event);
+    const content = but.nextSibling as HTMLButtonElement;
+    but.classList.toggle("active");
+    if (content!.style.display === "block") {
+      content.style.display = "none";
+      console.log(1);
+    } else {
+      content.style.display = "block";
+      console.log(2);
+    }
+  }
 }
 </script>
 
@@ -44,20 +65,28 @@ export default class Labels extends Vue {
   background: white;
   font-size: 16px;
   padding-left: 16px;
-  > .tag {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e6e6e6;
-    svg {
-      width: 18px;
-      height: 18px;
-      color: #666;
-      margin-right: 16px;
+  > div {
+    > .tag {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e6e6e6;
+      svg {
+        width: 18px;
+        height: 18px;
+        color: #666;
+        margin-right: 16px;
+      }
+    }
+    > .contenta {
+      display: none;
+      background: #767676;
+      color: white;
     }
   }
 }
+
 .addTag {
   background: #767676;
   color: white;
