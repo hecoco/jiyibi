@@ -19,7 +19,7 @@
         <div class="contenta">
           <div>
             <But>修改</But>
-            <But>删除</But>
+            <But @click.native="remove(tag.id)">删除</But>
           </div>
           <div>支出输入</div>
         </div>
@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { tagsListModel } from "@/models/tagsListModel";
+import tagsListModel from "@/models/tagsListModel";
 import { Component } from "vue-property-decorator";
 import But from "@/components/But.vue";
 tagsListModel.fetch();
@@ -55,23 +55,17 @@ export default class Labels extends Vue {
     }
   }
   coll(event: MouseEvent) {
-    console.log(
-      new Date(+new Date() + 8 * 3600 * 1000)
-        .toJSON()
-        .substr(0, 19)
-        .replace("T", " ")
-    );
     const but = event.target as HTMLButtonElement;
-    console.log(event);
     const content = but.nextSibling as HTMLButtonElement;
     but.classList.toggle("active");
     if (content!.style.display === "block") {
       content.style.display = "none";
-      console.log(1);
     } else {
       content.style.display = "block";
-      console.log(2);
     }
+  }
+  remove(id: string) {
+    tagsListModel.remove(id);
   }
 }
 </script>

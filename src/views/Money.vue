@@ -21,7 +21,7 @@ import Types from "@/components/money/Types.vue";
 import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 import { recordListModel } from "@/models/recordListModel";
-import { tagsListModel } from "@/models/tagsListModel";
+import tagsListModel from "@/models/tagsListModel";
 
 // const;
 // const version = window.localStorage.getItem("version");
@@ -45,7 +45,10 @@ export default class Money extends Vue {
     formItem: "",
     type: "-",
     amount: 0,
-    createdAt: new Date(),
+    createdAt: new Date(+new Date() + 8 * 3600 * 1000)
+      .toJSON()
+      .substr(0, 19)
+      .replace("T", " "),
   };
 
   onUpdateTags(tags: string[]) {
@@ -62,7 +65,10 @@ export default class Money extends Vue {
   }
   saveRecord() {
     const record2: RecordItem = recordListModel.clone(this.record);
-    record2.createdAt = new Date();
+    record2.createdAt = new Date(+new Date() + 8 * 3600 * 1000)
+      .toJSON()
+      .substr(0, 19)
+      .replace("T", " ");
     this.recordList.push(record2);
   }
 

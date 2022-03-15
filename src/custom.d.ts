@@ -3,5 +3,6 @@ type RecordItem = {
     formItem: string;
     type: string;
     amount: number;
-    createdAt: Date | undefined;
+    // createdAt: Date | undefined;
+    createdAt: string | undefined;
 };

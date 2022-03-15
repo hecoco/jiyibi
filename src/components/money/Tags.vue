@@ -6,20 +6,20 @@
     <ul class="current">
       <li
         v-for="tag in dataSource"
-        :key="tag"
+        :key="tag.id"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
       >
-        {{ tag }}
+        {{ tag.name }}
       </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import LabelsVue from "@/views/Labels.vue";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import tagsListModel from "@/models/tagsListModel";
 
 @Component
 export default class Tags extends Vue {

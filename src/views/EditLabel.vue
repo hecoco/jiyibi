@@ -1,7 +1,7 @@
 <template>
   <Layout>
-    <div>
-      <Icon class="icon" name="right" />
+    <div class="navBar">
+      <Icon class="icon leftIcon" name="right" />
       <span>返回</span>
     </div>
     <FormItem
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { tagsListModel } from "@/models/tagsListModel";
+import tagsListModel from "@/models/tagsListModel";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FormItem from "@/components/money/FormItem.vue";
@@ -41,4 +41,15 @@ export default class EditLabel extends Vue {
 .icon {
   transform: rotate(180deg);
 }
+// .navBar {
+//   text-align: center;
+//   font-size: 16px;
+//   padding: 12px 16px;
+//   background: white;
+//   position: relative;
+//   > .leftIcon {
+//     position: absolute;
+//     left: 16px;
+//   }
+// }
 </style>
