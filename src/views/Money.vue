@@ -3,7 +3,11 @@
   <Layout class-prefix="layout">
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
     <Types :value.sync="record.type" />
-    <Notes @update:value="onUpdateNotes" />
+    <FormItem
+      fieldName="备注"
+      placeholder="在这里输入标签名"
+      @update:value="onUpdateFormItem"
+    />
     <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
     {{ record }}
   </Layout>
@@ -11,7 +15,7 @@
 
 <script lang="ts">
 import NumberPad from "@/components/money/NumberPad.vue";
-import Notes from "@/components/money/Notes.vue";
+import FormItem from "@/components/money/FormItem.vue";
 import Tags from "@/components/money/Tags.vue";
 import Types from "@/components/money/Types.vue";
 import Vue from "vue";
@@ -31,14 +35,14 @@ const recordList = recordListModel.fetch();
 const tagsList = tagsListModel.fetch();
 
 @Component({
-  components: { NumberPad, Notes, Tags, Types },
+  components: { NumberPad, FormItem, Tags, Types },
 })
 export default class Money extends Vue {
   tags = tagsList;
   recordList: RecordItem[] = recordList;
   record: RecordItem = {
     tags: [],
-    notes: "",
+    formItem: "",
     type: "-",
     amount: 0,
     createdAt: new Date(),
@@ -47,8 +51,8 @@ export default class Money extends Vue {
   onUpdateTags(tags: string[]) {
     this.record.tags = tags;
   }
-  onUpdateNotes(notes: string) {
-    this.record.notes = notes;
+  onUpdateFormItem(formItem: string) {
+    this.record.formItem = formItem;
   }
   onUpdateType(type: string) {
     this.record.type = type;
