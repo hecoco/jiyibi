@@ -18,8 +18,8 @@
         </div>
         <div class="contenta">
           <div>
-            <But>修改</But>
-            <But @click.native="remove(tag.id)">删除</But>
+            <But @click.native="updateName(tag.id, tag.name)">修改标签</But>
+            <But @click.native="remove(tag.id)">删除标签</But>
           </div>
           <div>支出输入</div>
         </div>
@@ -36,22 +36,26 @@ import Vue from "vue";
 import tagsListModel from "@/models/tagsListModel";
 import { Component } from "vue-property-decorator";
 import But from "@/components/But.vue";
-tagsListModel.fetch();
-const list = window.localStorage.getItem("recodList");
 @Component({
   components: { But },
 })
 export default class Labels extends Vue {
-  tagsList = tagsListModel.data;
+  tagsList = window.tagList;
+
+  updateName(id: string, name: string) {
+    const newName = window.prompt("修改标签名", name);
+    if (newName === null || newName === "" || newName!.trim() === "") {
+      return;
+    } else if (newName) {
+      window.updateName(id, newName);
+    }
+  }
   addTag() {
     const name = window.prompt("请输入标签名");
     if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
-    } else {
-      const message = tagsListModel.create(name!);
-      if (message === "duplicated") {
-        window.alert("标签名重复");
-      }
+    } else if (name) {
+      window.createTag(name);
     }
   }
   coll(event: MouseEvent) {

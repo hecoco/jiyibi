@@ -1,16 +1,6 @@
 import createId from "@/lib/createld";
 const localStorageKeyName = 'tagsList';
-type Tag = {
-    id: string;
-    name: string;
-};
-type TagListModel = {
-    data: Tag[];
-    fetch: () => Tag[];
-    create: (name: string) => 'success' | 'duplicated';
-    save: () => void;
-    remove: (id: string) => boolean;
-};
+
 const tagsListModel: TagListModel = {
     data: [],
     fetch() {
@@ -39,6 +29,21 @@ const tagsListModel: TagListModel = {
         this.data.splice(index, 1);
         this.save();
         return true;
+    },
+    updateTagName(id: string, name: string) {
+        const idList = this.fetch().map(item => item.id);
+        if (idList.indexOf(id)) {
+            const nameList = this.fetch().map(item => item.name);
+            if (nameList.indexOf(name) >= 0) {
+                return 'duplicated';
+            } else {
+                const tag = this.fetch().filter(item => item.id === id)[0];
+                tag.name = name;
+                this.save();
+                return 'success';
+            }
+        }
+        return "not found";
     }
 };
 
