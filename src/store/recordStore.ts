@@ -20,6 +20,10 @@ const recordStore = {
             .replace("T", " ");
         this.recordList && this.recordList.push(record2);
         recordStore.saveRecords();
+    },
+    inquireRecord(id:string){
+
+
     }
 };
 recordStore.fetchRecords();

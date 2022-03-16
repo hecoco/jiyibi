@@ -18,6 +18,7 @@ export default class But extends Vue {}
   border: none;
   height: 36px;
   padding: 0 16px;
+  cursor:pointer;
   &-wrapper {
     text-align: center;
     padding: 16px;

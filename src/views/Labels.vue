@@ -1,17 +1,25 @@
 <template>
   <layout>
     <div class="tags">
-      <div v-for="tag in tagsList" :key="tag.id">
+      <div v-for="tag in tagsList" :key="tag.id" >
         <div class="tag" @click="coll($event)">
           {{ tag.name }}
           <Icon name="right" />
         </div>
         <div class="contenta">
           <div>
-            <But @click.native="updateName(tag.id, tag.name)">修改标签</But>
-            <But @click.native="remove(tag.id)">删除标签</But>
+            <But class="updateBut" @click.native="updateName(tag.id, tag.name)">修改标签</But>
+            <But class="deleteBut" @click.native="remove(tag.id)">删除标签</But>
           </div>
-          <div>支出输入</div>
+          <div>
+            {{recordList}}
+<!--            <span v-if="record.type === `-`">支出</span>-->
+<!--            <span v-else-if="record.type === `+`">收入</span>-->
+<!--            <span>标签{{record.tags}}</span>-->
+<!--            <span>备注{{record.formItem ? record.formItem:'kong'}}</span>-->
+<!--            <span>金额{{record.amount}}</span>-->
+<!--            <span>时间{{record.createdAt}}</span>-->
+          </div>
         </div>
       </div>
       <div class="addTag-wrapper">
@@ -31,6 +39,14 @@ import store from "@/store/index2";
 })
 export default class Labels extends Vue {
   tagsList = store.tagList;
+  recordList = store.recordList;
+
+  //获取到选中的ID
+  //返回recordList[]数组
+  //展示
+  recordC(id:string){
+
+  }
 
   updateName(id: string, name: string) {
     const newName = window.prompt("修改标签名", name);
@@ -90,6 +106,12 @@ export default class Labels extends Vue {
       color: white;
     }
   }
+}
+.deleteBut{
+  background: darkred;
+}
+.updateBut{
+  background: cornflowerblue;
 }
 
 .addTag {
