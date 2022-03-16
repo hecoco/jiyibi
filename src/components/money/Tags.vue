@@ -19,7 +19,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import tagsListModel from "@/models/tagsListModel";
+import store from "@/store/index2";
 
 @Component
 export default class Tags extends Vue {
@@ -39,7 +39,7 @@ export default class Tags extends Vue {
     if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
     } else if (name) {
-      window.createTag(name);
+      store.createTag(name);
     }
   }
 }

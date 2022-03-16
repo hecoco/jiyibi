@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-import tagsListModel from "@/models/tagsListModel";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FormItem from "@/components/money/FormItem.vue";
@@ -25,14 +24,14 @@ export default class EditLabel extends Vue {
   // props: [FormItem] | undefined;
   created() {
     const id = this.$route.params.id;
-    tagsListModel.fetch();
-    const tags = tagsListModel.data;
-    const tag = tags.filter((t) => t.id === id)[0];
-    if (tag) {
-      console.log(tag);
-    } else {
-      this.$router.replace("/404");
-    }
+    //tagsListModel.fetch();
+    //const tags = tagsListModel.data;
+   // const tag = tags.filter((t) => t.id === id)[0];
+   //  if (tag) {
+   //    console.log(tag);
+   //  } else {
+   //    this.$router.replace("/404");
+   //  }
   }
 }
 </script>

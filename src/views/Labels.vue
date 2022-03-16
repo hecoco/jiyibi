@@ -1,20 +1,10 @@
 <template>
   <layout>
-    <!-- <div class="tags">
-      <router-link
-        class="tag"
-        :to="`/labels/edit/${tag.id}`"
-        v-for="tag in tagsList"
-        :key="tag.id"
-      >
-        <span>{{ tag.name }}</span>
-        <Icon name="right" />
-      </router-link>
-    </div> -->
     <div class="tags">
       <div v-for="tag in tagsList" :key="tag.id">
         <div class="tag" @click="coll($event)">
-          {{ tag.name }} <Icon name="right" />
+          {{ tag.name }}
+          <Icon name="right" />
         </div>
         <div class="contenta">
           <div>
@@ -33,21 +23,21 @@
 
 <script lang="ts">
 import Vue from "vue";
-import tagsListModel from "@/models/tagsListModel";
 import { Component } from "vue-property-decorator";
 import But from "@/components/But.vue";
+import store from "@/store/index2";
 @Component({
   components: { But },
 })
 export default class Labels extends Vue {
-  tagsList = window.tagList;
+  tagsList = store.tagList;
 
   updateName(id: string, name: string) {
     const newName = window.prompt("修改标签名", name);
     if (newName === null || newName === "" || newName!.trim() === "") {
       return;
     } else if (newName) {
-      window.updateName(id, newName);
+      store.updateTag(id, newName);
     }
   }
   addTag() {
@@ -55,7 +45,7 @@ export default class Labels extends Vue {
     if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
     } else if (name) {
-      window.createTag(name);
+      store.createTag(name);
     }
   }
   coll(event: MouseEvent) {
@@ -69,7 +59,8 @@ export default class Labels extends Vue {
     }
   }
   remove(id: string) {
-    tagsListModel.remove(id);
+    // tagsListModel.remove(id);
+    store.removeTag(id);
   }
 }
 </script>

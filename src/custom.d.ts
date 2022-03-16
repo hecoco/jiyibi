@@ -3,8 +3,7 @@ type RecordItem = {
     formItem: string;
     type: string;
     amount: number;
-    // createdAt: Date | undefined;
-    createdAt: string | undefined;
+    createdAt?: string;
 };
 type Tag = {
     id: string;
@@ -19,8 +18,12 @@ type TagListModel = {
     updateTagName: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
 };
 interface Window {
-    tagList: Tag[];
-    createTag: (name: string) => void;
-    removeTag: (id: string) => boolean;
-    updateName: (id: string, name: string) => void;
+    store:{
+        tagList: Tag[];
+        createTag: (name: string) => void;
+        removeTag: (id: string) => boolean;
+        updateTagName: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
+        recordList: RecordItem[];
+        createRecord:(record:RecordItem) =>void;
+    }
 }
