@@ -37,7 +37,9 @@ export default class Tags extends Vue {
   }
   addTag() {
     const name = window.prompt("请输入标签名");
-    if (name === "" || name!.trim() === "") {
+    if (!name){
+      return;
+    }else if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
     } else if (name) {
       this.$store.commit('createTag',name);

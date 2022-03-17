@@ -58,7 +58,21 @@ const store = new Vuex.Store({
       store.commit('saveTags',state)
       return true;
     },
-  }
+    updateTag(state,id: string, name: string) {
+      const idList = state.tagList.map(item => item.id);
+      if (idList.indexOf(id) >= 0) {
+        const nameList = state.tagList.map(item => item.name);
+        if (nameList.indexOf(name) >= 0) {
+          return 'duplicated';
+        } else {
+          state.tagList.filter(item => item.id === id)[0].name = name;
+          store.commit('saveTags')//如果需要在这里调用store,需要定义store,在返回
+          return 'success';
+        }
+      }
+      return "not found";
+    },
+  },
 })
 
 export default store
