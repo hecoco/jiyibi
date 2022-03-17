@@ -8,7 +8,7 @@
       placeholder="在这里输入标签名"
       @update:value="onUpdateFormItem"
     />
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags" />
+    <Tags :data-source.sync="reecordList" @update:value="onUpdateTags" />
     {{ record }}
   </Layout>
 </template>
@@ -31,8 +31,6 @@ import { Component } from "vue-property-decorator";
   }
 })
 export default class Money extends Vue {
-  // tags = store.tagList;
-  // recordList = store.recordList;
   record: RecordItem = {
     tags: [],
     formItem: "",

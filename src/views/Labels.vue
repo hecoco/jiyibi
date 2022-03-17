@@ -1,7 +1,7 @@
 <template>
   <layout>
     <div class="tags">
-      <div v-for="tag in tagsList" :key="tag.id" >
+      <div v-for="tag in tagList" :key="tag.id" >
         <div class="tag" @click="coll($event,tag)">
           {{ tag.name }}
           <Icon name="right" />
@@ -12,7 +12,7 @@
             <But class="deleteBut" @click.native="remove(tag.id)">删除标签</But>
           </div>
           <div>
-            {{recordList}}
+<!--            {{recordList}}-->
 <!--            <span v-if="record.type === `-`">支出</span>-->
 <!--            <span v-else-if="record.type === `+`">收入</span>-->
 <!--            <span>标签{{record.tags}}</span>-->
@@ -35,11 +35,16 @@ import { Component } from "vue-property-decorator";
 import But from "@/components/But.vue";
 @Component({
   components: { But },
+  computed:{
+    tagList(){return this.$store.state.tagList;}
+  }
 })
 export default class Labels extends Vue {
+  created(){
+    this.$store.commit('fetchTags')
+  }
   // tagsList = store.tagList;
   // recordList = store.recordList;
-
 
   //获取到选中的ID
   //返回recordList[]数组
@@ -61,7 +66,7 @@ export default class Labels extends Vue {
     if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
     } else if (name) {
-      // store.createTag(name);
+      this.$store.commit('createTag',name);
     }
   }
   coll(event: MouseEvent,tag:String[]) {
@@ -76,8 +81,7 @@ export default class Labels extends Vue {
     // const z = store.inquireRecord(tag);
   }
   remove(id: string) {
-    // tagsListModel.remove(id);
-    // store.removeTag(id);
+    this.$store.commit('removeTag',id)
   }
 }
 </script>
