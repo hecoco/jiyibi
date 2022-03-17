@@ -25,5 +25,6 @@ interface Window {
         updateTagName: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
         recordList: RecordItem[];
         createRecord:(record:RecordItem) =>void;
+        inquireRecord:(tag:String[])=>RecordItem[];
     }
 }

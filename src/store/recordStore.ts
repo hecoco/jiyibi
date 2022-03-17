@@ -1,4 +1,5 @@
 import clone from "@/lib/clone";
+import tagStore from "@/store/tagStore";
 
 
 const localStorageKeyName = 'recodList';
@@ -21,9 +22,12 @@ const recordStore = {
         this.recordList && this.recordList.push(record2);
         recordStore.saveRecords();
     },
-    inquireRecord(id:string){
+    inquireRecord(tag:String[]){
+        const record = this.recordList.map(item => item.tags);
 
 
+        const b: RecordItem[] =[]
+        return b;
     }
 };
 recordStore.fetchRecords();

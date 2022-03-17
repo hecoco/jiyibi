@@ -2,7 +2,7 @@
   <layout>
     <div class="tags">
       <div v-for="tag in tagsList" :key="tag.id" >
-        <div class="tag" @click="coll($event)">
+        <div class="tag" @click="coll($event,tag)">
           {{ tag.name }}
           <Icon name="right" />
         </div>
@@ -33,13 +33,13 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import But from "@/components/But.vue";
-import store from "@/store/index2";
 @Component({
   components: { But },
 })
 export default class Labels extends Vue {
-  tagsList = store.tagList;
-  recordList = store.recordList;
+  // tagsList = store.tagList;
+  // recordList = store.recordList;
+
 
   //获取到选中的ID
   //返回recordList[]数组
@@ -53,7 +53,7 @@ export default class Labels extends Vue {
     if (newName === null || newName === "" || newName!.trim() === "") {
       return;
     } else if (newName) {
-      store.updateTag(id, newName);
+      // store.updateTag(id, newName);
     }
   }
   addTag() {
@@ -61,10 +61,10 @@ export default class Labels extends Vue {
     if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
     } else if (name) {
-      store.createTag(name);
+      // store.createTag(name);
     }
   }
-  coll(event: MouseEvent) {
+  coll(event: MouseEvent,tag:String[]) {
     const but = event.target as HTMLButtonElement;
     const content = but.nextSibling as HTMLButtonElement;
     but.classList.toggle("active");
@@ -73,10 +73,11 @@ export default class Labels extends Vue {
     } else {
       content.style.display = "block";
     }
+    // const z = store.inquireRecord(tag);
   }
   remove(id: string) {
     // tagsListModel.remove(id);
-    store.removeTag(id);
+    // store.removeTag(id);
   }
 }
 </script>

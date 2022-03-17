@@ -20,14 +20,19 @@ import Tags from "@/components/money/Tags.vue";
 import Types from "@/components/money/Types.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import store from "@/store/index2";
+
 
 @Component({
   components: { NumberPad, FormItem, Tags, Types },
+  computed:{
+    reecordList(){
+      return this.$store.state.recordList;
+    }
+  }
 })
 export default class Money extends Vue {
-  tags = store.tagList;
-  recordList = store.recordList;
+  // tags = store.tagList;
+  // recordList = store.recordList;
   record: RecordItem = {
     tags: [],
     formItem: "",
@@ -38,6 +43,9 @@ export default class Money extends Vue {
       .substr(0, 19)
       .replace("T", " "),
   };
+  created(){
+    this.$store.commit('fetchRecords')
+  }
 
   onUpdateTags(tags: string[]) {
     this.record.tags = tags;
@@ -52,8 +60,9 @@ export default class Money extends Vue {
     this.record.amount = parseFloat(value);
   }
   saveRecord() {
-    store.createRecord(this.record);
+    this.$store.commit('createRecord',this.record);
   }
+
 }
 </script>
 

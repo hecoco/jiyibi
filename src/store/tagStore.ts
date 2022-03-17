@@ -3,12 +3,12 @@ import createId from "@/lib/createld";
 const localStorageKeyName = 'tagsList';
 
 const tagStore = {
-    tagList : [] as Tag[],
-    fetchTags(){
-       this.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
+    tagList: [] as Tag[],
+    fetchTags() {
+        this.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
         return this.tagList
     },
-    createTag (name: string)  {
+    createTag(name: string) {
         const id = createId().toString();
         const names = this.tagList.map(item => item.name);
         console.log(names);
@@ -16,11 +16,11 @@ const tagStore = {
             window.alert("标签名重复");
             return 'duplicated';
         }
-        this.tagList.push({ id: id, name: name });
+        this.tagList.push({id: id, name: name});
         this.saveTags();
         return 'success'
     },
-    removeTag (id: string)  {
+    removeTag(id: string) {
         let index = -1;
         for (let i = 0; i < this.tagList.length; i++) {
             if (this.tagList[i].id === id) {
@@ -33,7 +33,7 @@ const tagStore = {
         this.saveTags();
         return true;
     },
-    updateTag(id: string, name: string){
+    updateTag(id: string, name: string) {
         const idList = this.tagList.map(item => item.id);
         if (idList.indexOf(id) >= 0) {
             const nameList = this.tagList.map(item => item.name);
@@ -47,9 +47,9 @@ const tagStore = {
         }
         return "not found";
     },
-    saveTags(){
+    saveTags() {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.tagList));
-    }
+    },
 };
 
 tagStore.fetchTags();
