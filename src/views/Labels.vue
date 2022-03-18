@@ -2,7 +2,7 @@
   <layout>
     <div class="tags">
       <div v-for="tag in tagList" :key="tag.id" >
-        <div class="tag" @click="coll($event,tag)">
+        <div class="tag" @click="coll($event),inquireRecord(tag.id)">
           {{ tag.name }}
           <Icon name="right" />
         </div>
@@ -11,14 +11,12 @@
             <But class="updateBut" @click.native="updateName(tag.id, tag.name)">修改标签</But>
             <But class="deleteBut" @click.native="remove(tag.id)">删除标签</But>
           </div>
-          <div>
-<!--            {{recordList}}-->
-<!--            <span v-if="record.type === `-`">支出</span>-->
-<!--            <span v-else-if="record.type === `+`">收入</span>-->
-<!--            <span>标签{{record.tags}}</span>-->
-<!--            <span>备注{{record.formItem ? record.formItem:'kong'}}</span>-->
-<!--            <span>金额{{record.amount}}</span>-->
-<!--            <span>时间{{record.createdAt}}</span>-->
+          <div v-for="record in newRecordList">
+            <span>{{record.createdAt}}</span>
+            <span v-if="record.formItem">备注: {{record.formItem}}</span>
+            <span v-if="record.type===`-`">支出：-{{record.amount}}</span>
+            <span v-else-if="record.type===`+`">收入：{{record.amount}}</span>
+
           </div>
         </div>
       </div>
@@ -33,24 +31,29 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import But from "@/components/But.vue";
+import NumberPad from "@/components/money/NumberPad.vue";
+import FormItem from "@/components/money/FormItem.vue";
+import Tags from "@/components/money/Tags.vue";
+import Types from "@/components/money/Types.vue";
 @Component({
   components: { But },
-  computed:{
-    tagList(){return this.$store.state.tagList;}
-  }
 })
 export default class Labels extends Vue {
-  created(){
-    this.$store.commit('fetchTags')
+  get tagList(){
+    return this.$store.state.tagList;
   }
-  // tagsList = store.tagList;
-  // recordList = store.recordList;
+  get newRecordList(){
+    return this.$store.state.newRecordList;
+  }
 
-  //获取到选中的ID
-  //返回recordList[]数组
-  //展示
-  recordC(id:string){
+  created(){
+    this.$store.commit('fetchTags');
+    this.$store.commit('fetchRecords');
+  }
 
+  inquireRecord(id:string){
+    console.log(id);
+    this.$store.commit('inquireRecord', id);
   }
 
   updateName(id: string, name: string) {
@@ -58,7 +61,7 @@ export default class Labels extends Vue {
     if (newName === null || newName === "" || newName!.trim() === "") {
       return;
     } else if (newName) {
-      this.$store.commit('updateTag',id,newName)
+      this.$store.commit('updateTag', {id,newName})
     }
   }
   addTag() {
@@ -71,7 +74,7 @@ export default class Labels extends Vue {
       this.$store.commit('createTag',name);
     }
   }
-  coll(event: MouseEvent,tag:String[]) {
+  coll(event: MouseEvent) {
     const but = event.target as HTMLButtonElement;
     const content = but.nextSibling as HTMLButtonElement;
     but.classList.toggle("active");
@@ -80,7 +83,6 @@ export default class Labels extends Vue {
     } else {
       content.style.display = "block";
     }
-    // const z = store.inquireRecord(tag);
   }
   remove(id: string) {
     this.$store.commit('removeTag',id)
@@ -116,9 +118,11 @@ export default class Labels extends Vue {
 }
 .deleteBut{
   background: darkred;
+  min-width: 30vw;
 }
 .updateBut{
   background: cornflowerblue;
+  min-width: 30vw;
 }
 
 .addTag {

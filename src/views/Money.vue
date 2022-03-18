@@ -24,13 +24,11 @@ import { Component } from "vue-property-decorator";
 
 @Component({
   components: { NumberPad, FormItem, Tags, Types },
-  computed:{
-    reecordList(){
-      return this.$store.state.recordList;
-    }
-  }
 })
 export default class Money extends Vue {
+  get recordList(){
+    return this.$store.state.recordList;
+  }
   record: RecordItem = {
     tags: [],
     formItem: "",
