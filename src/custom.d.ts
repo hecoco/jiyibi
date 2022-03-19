@@ -1,5 +1,5 @@
 type RecordItem = {
-    tags: string[];
+    tags: Tag[];
     formItem: string;
     type: string;
     amount: number;
@@ -17,14 +17,4 @@ type TagListModel = {
     remove: (id: string) => boolean;
     updateTagName: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
 };
-interface Window {
-    store:{
-        tagList: Tag[];
-        createTag: (name: string) => void;
-        removeTag: (id: string) => boolean;
-        updateTagName: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
-        recordList: RecordItem[];
-        createRecord:(record:RecordItem) =>void;
-        inquireRecord:(tag:String[])=>RecordItem[];
-    }
-}
+interface Window {}

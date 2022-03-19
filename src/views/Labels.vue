@@ -1,8 +1,15 @@
 <template>
   <layout>
     <div class="tags">
+<!--      手机浏览器唤起数字键盘-->
+<!--      禁止粘贴-->
+<!--      展示Tag，支出/收入 不支持自定义，餐饮交通娱乐其他。。。。每一个搭配ICONS-->
+<!--      明细 展示月日星期 支出收入金额 下拉列表框选择月或年/日历组件-->
+<!--      统计 使用条形统计图可切换年月日对比-->
+<!--      加入老板键可一键生成伪数据 展示全部功能-->
+      <input type="number"  pattern="[0-9]*" min='0'/>
       <div v-for="tag in tagList" :key="tag.id" >
-        <div class="tag" @click="coll($event),inquireRecord(tag.id)">
+        <div class="tag" @click="coll($event)">
           {{ tag.name }}
           <Icon name="right" />
         </div>
@@ -11,12 +18,12 @@
             <But class="updateBut" @click.native="updateName(tag.id, tag.name)">修改标签</But>
             <But class="deleteBut" @click.native="remove(tag.id)">删除标签</But>
           </div>
-          <div v-for="record in newRecordList">
-            <span>{{record.createdAt}}</span>
-            <span v-if="record.formItem">备注: {{record.formItem}}</span>
-            <span v-if="record.type===`-`">支出：-{{record.amount}}</span>
-            <span v-else-if="record.type===`+`">收入：{{record.amount}}</span>
-
+          <div v-for="record in tagList">
+            {{record}}
+<!--            <span>{{record.createdAt}}</span>-->
+<!--            <span v-if="record.formItem">备注: {{record.formItem}}</span>-->
+<!--            <span v-if="record.type===`-`">支出：-{{record.amount}}</span>-->
+<!--            <span v-else-if="record.type===`+`">收入：{{record.amount}}</span>-->
           </div>
         </div>
       </div>
@@ -31,10 +38,7 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import But from "@/components/But.vue";
-import NumberPad from "@/components/money/NumberPad.vue";
-import FormItem from "@/components/money/FormItem.vue";
-import Tags from "@/components/money/Tags.vue";
-import Types from "@/components/money/Types.vue";
+
 @Component({
   components: { But },
 })
@@ -51,10 +55,10 @@ export default class Labels extends Vue {
     this.$store.commit('fetchRecords');
   }
 
-  inquireRecord(id:string){
-    console.log(id);
-    this.$store.commit('inquireRecord', id);
-  }
+  // inquireRecord(id:string){
+  //   console.log(id);
+  //   this.$store.commit('inquireRecord', id);
+  // }
 
   updateName(id: string, name: string) {
     const newName = window.prompt("修改标签名", name);
@@ -91,6 +95,10 @@ export default class Labels extends Vue {
 </script>
 
 <style lang="scss" scoped>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none; appearance: none;
+}
 .tags {
   background: white;
   font-size: 16px;

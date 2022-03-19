@@ -2,6 +2,7 @@
   <ul class="tabs" :class="{[classPrefix+'-tabs']:classPrefix}">
     <li v-for="item in dataSource" :key="item.value"
         :class="liClass(item)"
+        :style="{height:height}"
         class="tabs-item"
         @click="select(item)">{{item.text}}</li>
   </ul>
@@ -17,6 +18,7 @@ export default class Tabs extends Vue{
     dataSource!:DataSourceItem[];
   @Prop(String) readonly value!: string;
   @Prop(String) classPrefix?:string;
+  @Prop({type:String,default:'64px'}) height!:string;
 
   liClass (item:DataSourceItem){
     return {
@@ -39,7 +41,7 @@ export default class Tabs extends Vue{
   font-size: 24px;
   &-item {
     width: 50%;
-    height: 64px;
+    //height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;

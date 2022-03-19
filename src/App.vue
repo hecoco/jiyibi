@@ -9,6 +9,7 @@ export default {};
 </script>
 
 <style lang="scss">
+//noinspection CssUnknownTarget
 @import "~@/assets/styles/helper.scss";
 * {
   padding: 0;
@@ -22,6 +23,9 @@ a {
 ul,
 ol {
   list-style: none;
+}
+h1,h2,h3,h4,h5,h6{
+  font-weight: normal;
 }
 button,
 input {
@@ -38,5 +42,6 @@ input {
   line-height: 1.5;
   font-family: $font-hei;
   font-size: 16px;
+  background: #f5f5f5;
 }
 </style>

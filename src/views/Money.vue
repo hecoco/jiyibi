@@ -6,12 +6,14 @@
     <FormItem
       fieldName="备注"
       placeholder="在这里输入标签名"
+      :value="record.formItem"
       @update:value="onUpdateFormItem"
     />
     <Tags :data-source.sync="recordList" @update:value="onUpdateTags" />
     {{ record }}
   </Layout>
 </template>
+<!--  暗黑模式加 50度灰在最上面  -->
 
 <script lang="ts">
 import NumberPad from "@/components/money/NumberPad.vue";
@@ -46,7 +48,7 @@ export default class Money extends Vue {
     this.$store.commit('fetchRecords')
   }
 
-  onUpdateTags(tags: string[]) {
+  onUpdateTags(tags: Tag[]) {
     this.record.tags = tags;
   }
   onUpdateFormItem(formItem: string) {
@@ -60,6 +62,7 @@ export default class Money extends Vue {
   }
   saveRecord() {
     this.$store.commit('createRecord',this.record);
+    this.record.formItem = "";
   }
 
 }
