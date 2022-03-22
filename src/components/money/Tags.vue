@@ -1,7 +1,10 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button @click="addTag">新增标签</button>
+      <button @click="addTag">
+        <span v-if="type==='-'">新增支出标签</span>
+        <span v-else-if="type==='+'">新增收入标签</span>
+      </button>
     </div>
     <ul class="current">
       <li
