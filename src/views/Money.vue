@@ -2,7 +2,6 @@
 <template>
   <Layout class-prefix="layout">
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
     <FormItem
       fieldName="备注"
       placeholder="在这里输入标签名"
@@ -10,7 +9,9 @@
       @update:value="onUpdateFormItem"
     />
     <Tags :type="type" :data-source.sync="recordList" @update:value="onUpdateTags" />
+    <input type="date">
     {{ record }}
+    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
   </Layout>
 </template>
 <!--  暗黑模式加 50度灰在最上面  -->
