@@ -9,7 +9,7 @@
       @update:value="onUpdateFormItem"
     />
     <Tags :type="type" :data-source.sync="recordList" @update:value="onUpdateTags" />
-    <input type="date">
+    <input type="month" v-model="dateAt" class="dates" >
     {{ record }}
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
   </Layout>
@@ -25,12 +25,15 @@ import Tabs from "@/components/Tabs.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import recordTypeList from "@/constant/recordTypeList";
+import dayjs from "dayjs";
 
 @Component({
   components: { NumberPad, FormItem, Tags ,Tabs},
 })
 export default class Money extends Vue {
+
   type='-';
+  dateAt=dayjs(new Date().toISOString()).format('YYYY-MM')
   get recordList(){
     return this.$store.state.recordList;
   }
@@ -65,7 +68,6 @@ export default class Money extends Vue {
     this.$store.commit('createRecord',this.record);
     this.record.formItem = "";
   }
-
 }
 </script>
 
@@ -77,4 +79,7 @@ export default class Money extends Vue {
 </style>
 
 <style lang="scss" scoped>
+.dates{
+  width: 150px;
+}
 </style>
