@@ -4,19 +4,19 @@
         <date-picker :editable=editable type="month" :placeholder=dateX @input="di"  class="dates"></date-picker>
         <Tabs :value.sync="type" :data-source="detailsList" class-prefix="details"/>
       </div>
-      <div class="xxx">
-        <div class="sr">
-          <span>{{ dateX }}总支出</span>
-          <span>￥205902</span>
-        </div>
-        <div class="zc">
-          <span>{{ dateX }}总收入</span>
-          <span>￥205902</span>
-        </div>
-      </div>
+<!--      <div class="xxx">-->
+<!--        <div class="sr">-->
+<!--          <span>总支出</span>-->
+<!--          <span>￥{{he[1].total}}</span>-->
+<!--        </div>-->
+<!--        <div class="zc">-->
+<!--          <span>{{ dateX }}总收入</span>-->
+<!--          <span>￥205902</span>-->
+<!--        </div>-->
+<!--      </div>-->
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
-          <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
+          <h3 class="title">{{beautify(group.title)}} <span>总计：{{group.total}}</span></h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.id">
               <span>{{tagString(item.tags)}}</span>
@@ -55,34 +55,33 @@ export default class Statistics extends Vue{
   month = '0'
   editable=false;//设置日期是否可以输入
   dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月');//显示
-  tagString(tags:Tag[]){
-    return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
-  }
+  createdAt= new Date(+new Date()+8*3600*1000).toISOString();
   di(date:Date){
     let hour = date.getHours()+8;
     date.setHours(hour);//设置当前时区
     const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date()+8*3600*1000)).format('YYYY')
     x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
+    this.createdAt = date.toISOString();
   }
    get recordList(){
      return this.$store.state.recordList;
    }
    get groupedList(){
-    console.log(this.type)
     const {recordList} = this;
     if (recordList.length===0){return []}
 
      let newList = clone(recordList);
      if (this.type==='all'){
-       newList = clone(recordList).sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+       newList = clone(recordList).
+       filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
+           .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
      }else{
-       newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
+       newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type).
+       filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
            .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
      }
      type Result = { title: string, total?: number, items: RecordItem[] }[]
      const result:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}];
-     const resultMonth:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM'),items:[newList[0]]}];
-     console.log(resultMonth);
      for (let i=1;i<newList.length;i++){
        const current = newList[i];
        const last = result[result.length-1];
@@ -97,6 +96,7 @@ export default class Statistics extends Vue{
      })
      return result;
    }
+  // 格式化
   beautify(string:string){
       const day = dayjs(string)
       const now =dayjs();
@@ -113,6 +113,10 @@ export default class Statistics extends Vue{
         return day.format('YYYY年M月D日');
       }
    }
+  tagString(tags:Tag[]){
+
+    return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
+  }
    beforeCreate(){
      this.$store.commit('fetchRecords')
    }
