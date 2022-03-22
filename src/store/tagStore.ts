@@ -8,18 +8,7 @@ const tagStore = {
         this.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
         return this.tagList
     },
-    createTag(name: string) {
-        const id = createId().toString();
-        const names = this.tagList.map(item => item.name);
-        console.log(names);
-        if (names.indexOf(name) >= 0) {
-            window.alert("标签名重复");
-            return 'duplicated';
-        }
-        this.tagList.push({id: id, name: name});
-        this.saveTags();
-        return 'success'
-    },
+
     removeTag(id: string) {
         let index = -1;
         for (let i = 0; i < this.tagList.length; i++) {

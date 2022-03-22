@@ -16,7 +16,6 @@
       <div v-else class="noResult">
         暂无记录<br/>
         <But @click.native="">去记账</But>
-
       </div>
     </layout>
 </template>
@@ -38,7 +37,7 @@ export default class Statistics extends Vue{
   tagString(tags:Tag[]){
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
-   get  recordList(){
+   get recordList(){
      return this.$store.state.recordList;
    }
    get groupedList(){

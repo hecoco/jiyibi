@@ -2,14 +2,14 @@
 <template>
   <Layout class-prefix="layout">
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
-    <Tabs :data-source="recordTypeList" :value.sync="record.type" />
+    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <FormItem
       fieldName="备注"
       placeholder="在这里输入标签名"
       :value="record.formItem"
       @update:value="onUpdateFormItem"
     />
-    <Tags :data-source.sync="recordList" @update:value="onUpdateTags" />
+    <Tags :type="type" :data-source.sync="recordList" @update:value="onUpdateTags" />
     {{ record }}
   </Layout>
 </template>
@@ -25,11 +25,11 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import recordTypeList from "@/constant/recordTypeList";
 
-
 @Component({
   components: { NumberPad, FormItem, Tags ,Tabs},
 })
 export default class Money extends Vue {
+  type='-';
   get recordList(){
     return this.$store.state.recordList;
   }

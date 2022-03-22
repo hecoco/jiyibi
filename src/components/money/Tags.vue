@@ -5,7 +5,7 @@
     </div>
     <ul class="current">
       <li
-        v-for="tag in tagList"
+        v-for="tag in types"
         :key="tag.id"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
@@ -20,13 +20,25 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import clone from "@/lib/clone";
 @Component({
-  computed:{
-    tagList(){return this.$store.state.tagList;}
-  }
+  // computed:{
+  //   tagList(){return this.$store.state.tagList;}
+  // }
 })
 export default class Tags extends Vue {
   selectedTags: string[] = [];
+  @Prop() type!:string;
+
+  get tagsList(){
+    return this.$store.state.tagList;
+  }
+
+  get types(){
+    const {tagsList} = this;
+    return clone(tagsList).filter((r:Tag)=> r.type ===this.type);
+  }
+
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag);
     if (index >= 0) {
