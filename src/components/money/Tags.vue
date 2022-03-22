@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button @click="addTag">
+      <button @click="addTag(type)">
         <span v-if="type==='-'">新增支出标签</span>
         <span v-else-if="type==='+'">新增收入标签</span>
       </button>
@@ -14,7 +14,7 @@
         @click="toggle(tag)"
       >
         <Icon :name=tag.svg.trim() />
-        <span>{{ tag.name }}</span>
+        <span> {{ tag.name }}</span>
       </li>
     </ul>
   </div>
@@ -51,14 +51,15 @@ export default class Tags extends Vue {
     }
     this.$emit("update:value", this.selectedTags);
   }
-  addTag() {
+  addTag(type:string) {
     const name = window.prompt("请输入标签名");
     if (!name){
       return;
     }else if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
     } else if (name) {
-      this.$store.commit('createTag', name);
+      const tags = {name,type:type}
+      this.$store.commit('createTag', tags);
     }
   }
   created(){

@@ -27,7 +27,7 @@ const store = new Vuex.Store({
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagsList') || '[]');
     },
-    createTag(state, name: string) {
+    createTag(state, {name,type}) {
       const id = createId().toString();
       const names = state.tagList.map(item => item.name);
       console.log(names);
@@ -35,7 +35,8 @@ const store = new Vuex.Store({
         window.alert("标签名重复");
         return 'duplicated';
       }
-      state.tagList.push({ id: id, name: name,svg:'',type:''});
+      const svg = type==='-'? 'income': 'expenditure';
+      state.tagList.push({ id: id, name: name,svg:svg,type:type});
       store.commit('saveTags');
       return 'success';
     },
