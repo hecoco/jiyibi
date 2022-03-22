@@ -2,7 +2,7 @@
 <template>
   <Layout class-prefix="layout">
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
     <FormItem
       fieldName="备注"
       placeholder="在这里输入标签名"
