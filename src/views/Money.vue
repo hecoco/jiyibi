@@ -9,7 +9,7 @@
       @update:value="onUpdateFormItem"
     />
     <Tags :type="type" :data-source.sync="recordList" @update:value="onUpdateTags" />
-    <date-picker :editable=editable title-format="MM" :placeholder=dateX @input="di"></date-picker>
+    <date-picker :editable=editable title-format="MM" :placeholder=dateX @input="di" class="dates"></date-picker>
     {{ record }}
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
   </Layout>
@@ -52,7 +52,8 @@ export default class Money extends Vue {
   di(date:Date){
     let hour = date.getHours()+8;
     date.setHours(hour);//设置当前时区
-    this.dateX = dayjs(date.toISOString()).format('M月D日');
+    const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date()+8*3600*1000)).format('YYYY')
+    x ? this.dateX = dayjs(date.toISOString()).format('M月D日') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月D日')
     this.record.createdAt = date.toISOString();
   }
   created(){
