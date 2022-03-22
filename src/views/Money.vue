@@ -29,7 +29,7 @@ import dayjs from "dayjs";
 
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-import 'vue2-datepicker/locale/zh-cn'
+import 'vue2-datepicker/locale/zh-cn';
 
 @Component({
   components: { NumberPad, FormItem, Tags ,Tabs,DatePicker},
@@ -47,7 +47,7 @@ export default class Money extends Vue {
     formItem: "",
     type: "-",
     amount: 0,
-    createdAt: new Date(+new Date()+8*3600*1000).toISOString(),
+    createdAt: new Date(+new Date()+8*3600*1000).toISOString(),//设置当前时区
   };
   di(date:Date){
     let hour = date.getHours()+8;
@@ -89,5 +89,6 @@ export default class Money extends Vue {
 <style lang="scss" scoped>
 .dates{
   width: 150px;
+  margin: 0 auto;
 }
 </style>

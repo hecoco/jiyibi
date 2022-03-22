@@ -1,6 +1,9 @@
 <template>
     <layout>
-      <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+      <div class="yyy">
+        <date-picker :editable=editable type="month" :placeholder=dateX  class="dates"></date-picker>
+        <Tabs :value.sync="yyy" :data-source="detailsList" class-prefix="details"/>
+      </div>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{beautify(group.title)}} <span>{{group.total}}</span></h3>
@@ -29,11 +32,18 @@ import recordTypeList from "@/constant/recordTypeList";
 import dayjs from 'dayjs'
 import clone from "@/lib/clone";
 import But from "@/components/But.vue";
-//date
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/locale/zh-cn';
+import Types from "@/components/money/Types.vue";
+import Details from "@/components/Details.vue";
+import detailsList from "@/constant/detailsList";
 @Component({
-  components:{Tabs,But}
+  components:{Details, Tabs,But,DatePicker}
 })
 export default class Statistics extends Vue{
+  editable=false;//设置日期是否可以输入
+  dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月');//显示
   tagString(tags:Tag[]){
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
@@ -88,10 +98,37 @@ export default class Statistics extends Vue{
   interval = 'day';
   intervalList = intervalList;
   recordTypeList = recordTypeList;
+  yyy='all'
+  detailsList=detailsList
+
 };
 </script>
 
 <style lang="scss" scoped>
+::v-deep .details-tabs {
+  height: 34px;
+  font-size: 14px;
+  margin:6px 12px;
+}
+::v-deep .details-tabs-item{
+  height: 34px !important;
+  padding: 0 12px;
+  &.selected {
+    background: #42b983;
+    &::after {
+      display: none;
+    }
+  }
+}
+.yyy{
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+}
+.dates{
+  width: 150px;
+  margin:6px 12px;
+}
 .noResult{
   padding: 16px;
   text-align: center;
@@ -117,7 +154,6 @@ export default class Statistics extends Vue{
     width: 38vw;
     overflow: hidden;//??
   }
-
 
   ::v-deep .type-tabs-item{
      &.selected{
