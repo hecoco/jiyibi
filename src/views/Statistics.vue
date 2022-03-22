@@ -1,12 +1,22 @@
 <template>
     <layout>
       <div class="yyy">
-        <date-picker :editable=editable type="month" :placeholder=dateX  class="dates"></date-picker>
+        <date-picker :editable=editable type="month" :placeholder=dateX @input="di"  class="dates"></date-picker>
         <Tabs :value.sync="type" :data-source="detailsList" class-prefix="details"/>
+      </div>
+      <div class="xxx">
+        <div class="sr">
+          <span>{{ dateX }}总支出</span>
+          <span>￥205902</span>
+        </div>
+        <div class="zc">
+          <span>{{ dateX }}总收入</span>
+          <span>￥205902</span>
+        </div>
       </div>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
-          <h3 class="title">{{beautify(group.title)}} <span>{{group.total}}</span></h3>
+          <h3 class="title">{{beautify(group.title)}} <span>￥{{group.total}}</span></h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.id">
               <span>{{tagString(item.tags)}}</span>
@@ -18,7 +28,7 @@
       </ol>
       <div v-else class="noResult">
         暂无记录<br/>
-        <But @click.native="">去记账</But>
+<!--        <But @click.native="">去记账</But>-->
       </div>
     </layout>
 </template>
@@ -35,7 +45,6 @@ import But from "@/components/But.vue";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/zh-cn';
-import Types from "@/components/money/Types.vue";
 import Details from "@/components/Details.vue";
 import detailsList from "@/constant/detailsList";
 @Component({
@@ -43,10 +52,17 @@ import detailsList from "@/constant/detailsList";
 })
 export default class Statistics extends Vue{
   type = 'all';
+  month = '0'
   editable=false;//设置日期是否可以输入
   dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月');//显示
   tagString(tags:Tag[]){
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
+  }
+  di(date:Date){
+    let hour = date.getHours()+8;
+    date.setHours(hour);//设置当前时区
+    const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date()+8*3600*1000)).format('YYYY')
+    x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
   }
    get recordList(){
      return this.$store.state.recordList;
@@ -65,6 +81,8 @@ export default class Statistics extends Vue{
      }
      type Result = { title: string, total?: number, items: RecordItem[] }[]
      const result:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}];
+     const resultMonth:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM'),items:[newList[0]]}];
+     console.log(resultMonth);
      for (let i=1;i<newList.length;i++){
        const current = newList[i];
        const last = result[result.length-1];
@@ -82,6 +100,7 @@ export default class Statistics extends Vue{
   beautify(string:string){
       const day = dayjs(string)
       const now =dayjs();
+      const week = ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"]
       if (day.isSame(now,'day')){
         return '今天';
       }else if (day.isSame(now.subtract(1,'day'),'day')){
@@ -89,7 +108,7 @@ export default class Statistics extends Vue{
       }else if (day.isSame(now.subtract(2,'day'),'day')){
         return '前天';
       }else if (day.isSame(now,'year')){
-        return day.format('M月D日');
+        return day.format('M月D日')+' '+week[parseInt(day.format('d'))];
       }else{
         return day.format('YYYY年M月D日');
       }
@@ -109,14 +128,28 @@ export default class Statistics extends Vue{
 </script>
 
 <style lang="scss" scoped>
+.xxx{
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  >div{
+    margin-left: 16px;
+    width: 50vw;
+    > span{
+      display: flex;
+      flex-direction:column;
+    }
+  }
+}
 ::v-deep .details-tabs {
   height: 34px;
   font-size: 14px;
-  margin:6px 12px;
+  margin:6px 16px;
 }
 ::v-deep .details-tabs-item{
   height: 34px !important;
-  padding: 0 12px;
+  padding: 0 16px;
   &.selected {
     background: #42b983;
     &::after {
@@ -130,8 +163,8 @@ export default class Statistics extends Vue{
   width: 100vw;
 }
 .dates{
-  width: 150px;
-  margin:6px 12px;
+  width: 136px;
+  margin:6px 16px;
 }
 .noResult{
   padding: 16px;
