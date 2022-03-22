@@ -9,7 +9,7 @@
       @update:value="onUpdateFormItem"
     />
     <Tags :type="type" :data-source.sync="recordList" @update:value="onUpdateTags" />
-    <date-picker :editable=editable type="month" title-format="MM" @input="di"></date-picker>
+    <date-picker :editable=editable title-format="MM" :placeholder=dateX @input="di"></date-picker>
     {{ record }}
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
   </Layout>
@@ -37,10 +37,7 @@ import 'vue2-datepicker/locale/zh-cn'
 export default class Money extends Vue {
   editable=false;//设置日期是否可以输入
   type='-';
-  di(date:Date){
-    console.log(dayjs(date.toISOString()).format('M月'));
-  }
-  dateAt=dayjs(new Date().toISOString()).format('YYYY-MM')
+  dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月D日');//显示
   get recordList(){
     return this.$store.state.recordList;
   }
@@ -50,11 +47,14 @@ export default class Money extends Vue {
     formItem: "",
     type: "-",
     amount: 0,
-    createdAt: new Date(+new Date() + 8 * 3600 * 1000)
-      .toJSON()
-      .substr(0, 19)
-      .replace("T", " "),
+    createdAt: new Date(+new Date()+8*3600*1000).toISOString(),
   };
+  di(date:Date){
+    let hour = date.getHours()+8;
+    date.setHours(hour);//设置当前时区
+    this.dateX = dayjs(date.toISOString()).format('M月D日');
+    this.record.createdAt = date.toISOString();
+  }
   created(){
     this.$store.commit('fetchRecords')
   }
