@@ -2,7 +2,7 @@
     <layout>
       <div class="yyy">
         <date-picker :editable=editable type="month" :placeholder=dateX  class="dates"></date-picker>
-        <Tabs :value.sync="yyy" :data-source="detailsList" class-prefix="details"/>
+        <Tabs :value.sync="type" :data-source="detailsList" class-prefix="details"/>
       </div>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
@@ -42,6 +42,7 @@ import detailsList from "@/constant/detailsList";
   components:{Details, Tabs,But,DatePicker}
 })
 export default class Statistics extends Vue{
+  type = 'all';
   editable=false;//设置日期是否可以输入
   dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月');//显示
   tagString(tags:Tag[]){
@@ -51,29 +52,34 @@ export default class Statistics extends Vue{
      return this.$store.state.recordList;
    }
    get groupedList(){
+    console.log(this.type)
     const {recordList} = this;
     if (recordList.length===0){return []}
 
-    const newList = clone(recordList)
-        .filter( (r: RecordItem) => r.type===this.type)
-        .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-    type Result = { title: string, total?: number, items: RecordItem[] }[]
-    const result:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}];
-    for (let i=1;i<newList.length;i++){
-      const current = newList[i];
-      const last = result[result.length-1];
-      if (dayjs(last.title).isSame(dayjs(current.createdAt),'day')){
-        last.items.push(current)
-      }else {
-        result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'),items: [current]});
-      }
-    }
-    result.map(group=>{
-      group.total = group.items.reduce((sum,item)=>sum+item.amount,0)
-    })
-   return result;
+     let newList = clone(recordList);
+     if (this.type==='all'){
+       newList = clone(recordList).sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+     }else{
+       newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
+           .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+     }
+     type Result = { title: string, total?: number, items: RecordItem[] }[]
+     const result:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}];
+     for (let i=1;i<newList.length;i++){
+       const current = newList[i];
+       const last = result[result.length-1];
+       if (dayjs(last.title).isSame(dayjs(current.createdAt),'day')){
+         last.items.push(current)
+       }else {
+         result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'),items: [current]});
+       }
+     }
+     result.map(group=>{
+       group.total = group.items.reduce((sum,item)=>sum+item.amount,0)
+     })
+     return result;
    }
-   beautify(string:string){
+  beautify(string:string){
       const day = dayjs(string)
       const now =dayjs();
       if (day.isSame(now,'day')){
@@ -94,11 +100,9 @@ export default class Statistics extends Vue{
    mounted(){
      this.$store.commit('fetchRecords')
    }
-  type = '-';
   interval = 'day';
   intervalList = intervalList;
   recordTypeList = recordTypeList;
-  yyy='all'
   detailsList=detailsList
 
 };
