@@ -9,7 +9,7 @@
       @update:value="onUpdateFormItem"
     />
     <Tags :type="type" :data-source.sync="recordList" @update:value="onUpdateTags" />
-    <input type="month" v-model="dateAt" class="dates" >
+    <date-picker :editable=editable type="month" title-format="MM" @input="di"></date-picker>
     {{ record }}
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
   </Layout>
@@ -27,12 +27,19 @@ import { Component } from "vue-property-decorator";
 import recordTypeList from "@/constant/recordTypeList";
 import dayjs from "dayjs";
 
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/locale/zh-cn'
+
 @Component({
-  components: { NumberPad, FormItem, Tags ,Tabs},
+  components: { NumberPad, FormItem, Tags ,Tabs,DatePicker},
 })
 export default class Money extends Vue {
-
+  editable=false;//设置日期是否可以输入
   type='-';
+  di(date:Date){
+    console.log(dayjs(date.toISOString()).format('M月'));
+  }
   dateAt=dayjs(new Date().toISOString()).format('YYYY-MM')
   get recordList(){
     return this.$store.state.recordList;
