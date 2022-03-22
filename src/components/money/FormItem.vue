@@ -1,6 +1,8 @@
 <template>
   <div class="formItem">
-    <span class="name">{{ this.fieldName }}</span>
+    <span class="name">
+      {{ this.fieldName }}
+    </span>
     <input type="text" v-model="value" :placeholder="placeholder" />
   </div>
 </template>

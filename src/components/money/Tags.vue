@@ -10,7 +10,8 @@
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
       >
-        {{ tag.name }}
+        <Icon :name=tag.svg.trim() />
+        <span>{{ tag.name }}</span>
       </li>
     </ul>
   </div>
@@ -42,7 +43,7 @@ export default class Tags extends Vue {
     }else if (name === "" || name!.trim() === "") {
       window.alert("不能为空");
     } else if (name) {
-      this.$store.commit('createTag',name);
+      this.$store.commit('createTag', name);
     }
   }
   created(){

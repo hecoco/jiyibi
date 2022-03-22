@@ -55,11 +55,6 @@ export default class Labels extends Vue {
     this.$store.commit('fetchRecords');
   }
 
-  // inquireRecord(id:string){
-  //   console.log(id);
-  //   this.$store.commit('inquireRecord', id);
-  // }
-
   updateName(id: string, name: string) {
     const newName = window.prompt("修改标签名", name);
     if (newName === null || newName === "" || newName!.trim() === "") {

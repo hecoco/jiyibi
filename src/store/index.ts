@@ -16,10 +16,6 @@ const store = new Vuex.Store({
     },
     createRecord(state, record) {
       const record2: RecordItem = clone(record);
-      // record2.createdAt = new Date(+new Date() + 8 * 3600 * 1000)
-      //   .toJSON()
-      //   .substr(0, 19)
-      //   .replace("T", " ");
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');//如果需要在这里调用store,需要定义store,在返回
@@ -39,7 +35,7 @@ const store = new Vuex.Store({
         window.alert("标签名重复");
         return 'duplicated';
       }
-      state.tagList.push({ id: id, name: name });
+      state.tagList.push({ id: id, name: name,svg:'',type:''});
       store.commit('saveTags');
       return 'success';
     },
