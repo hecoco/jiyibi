@@ -29,7 +29,7 @@ import recordTypeList from "@/constant/recordTypeList";
 import dayjs from 'dayjs'
 import clone from "@/lib/clone";
 import But from "@/components/But.vue";
-
+//date
 @Component({
   components:{Tabs,But}
 })
