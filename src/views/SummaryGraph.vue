@@ -1,7 +1,7 @@
 <template>
   <layout>
     <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options=x></Chart>
+      <Chart class="chart" :options='chartOptions'></Chart>
     </div>
   </layout>
 </template>
@@ -24,7 +24,7 @@ export default class SummaryGraph extends Vue {
   get recordList() {
     return this.$store.state.recordList;
   }
-  get y(){
+  get keyValueList(){
     const today = new Date();
     const array = [];
     for (let i=0;i<=29;i++){
@@ -33,13 +33,13 @@ export default class SummaryGraph extends Vue {
         createAt : dateString
       });
       array.push({
-        date:dateString,value:found ? found.amount : 0
+        key:dateString,value:found ? found.amount : 0
       })
     }
     array.sort((a,b)=>{
-      if (a.date>b.date){
+      if (a.key>b.key){
         return 1;
-      }else if (a.date === b.date){
+      }else if (a.key === b.key){
         return 0;
       }else {
         return -1;
@@ -48,9 +48,9 @@ export default class SummaryGraph extends Vue {
     return array;
   }
 
-  get x() {
-    const keys =this.y.map(item=>item.date)
-    const values =this.y.map(item=>item.value)
+  get chartOptions() {
+    const keys =this.keyValueList.map(item=>item.key)
+    const values =this.keyValueList.map(item=>item.value)
     return {
       grid: {
         left: 0,
@@ -59,7 +59,12 @@ export default class SummaryGraph extends Vue {
       xAxis: {
         type: 'category',
         axisTick:{alignWithLabel:true},
-        data: keys
+        data: keys,
+        axisLabel:{
+          formatter: function (value:string,index:number){
+            return value.substr(5)
+          }
+        }
       },
       yAxis: {
         type: 'value',
