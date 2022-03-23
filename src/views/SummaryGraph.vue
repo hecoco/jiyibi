@@ -1,5 +1,9 @@
 <template>
   <layout>
+    <div class="yyy">
+      <date-picker :editable=editable type="month" :placeholder=dateX @input="di" class="dates"></date-picker>
+      <Tabs :value.sync="type" :data-source="detailsList" class-prefix="details"/>
+    </div>
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class="chart" :options='chartOptions'></Chart>
     </div>
@@ -28,12 +32,13 @@ export default class SummaryGraph extends Vue {
     const today = new Date();
     const array = [];
     for (let i=0;i<=29;i++){
-      const dateString = dayjs(today).subtract(i,'day').format('YYYY-MM-DD');
+      const dateString = dayjs(today).subtract(i,'day')
+          .format('YYYY-MM-DD');
       const found = _.find(this.recordList,{
-        createAt : dateString
+        createdAt : dateString
       });
       array.push({
-        key:dateString,value:found ? found.amount : 0
+        key:dateString,value:found ? found.total : 0
       })
     }
     array.sort((a,b)=>{
@@ -46,6 +51,12 @@ export default class SummaryGraph extends Vue {
       }
     })
     return array;
+  }
+  di(date:Date){
+    let hour = date.getHours()+8;
+    date.setHours(hour);//设置当前时区
+    const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date()+8*3600*1000)).format('YYYY')
+    x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
   }
 
   get chartOptions() {
@@ -81,11 +92,17 @@ export default class SummaryGraph extends Vue {
   mounted() {
     (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
     this.$store.commit('fetchRecords');
+    this.$store.commit('aaa',this.recordList);
   }
 };
 </script>
 
 <style scoped lang="scss">
+.yyy{
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+}
 .chart {
   width: 430%;
 

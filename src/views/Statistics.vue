@@ -13,7 +13,7 @@
             <li class="record" v-for="item in group.items" :key="item.id">
               <span>{{tagString(item.tags)}}</span>
               <span class="notes">{{item.formItem}}</span>
-              <span>￥{{item.amount}}</span>
+              <span>{{item.type}}{{item.amount}}</span>
             </li>
           </ol>
         </li>
@@ -47,7 +47,7 @@ export default class Statistics extends Vue{
   month = '0'
   editable=false;//设置日期是否可以输入
   dateX='点击选择月份';//显示
-  createdAt= new Date(+new Date()+8*3600*1000).toISOString();
+  createdAt= 'a';
   get Month(){
     return this.$store.state.Month;
   }
@@ -56,25 +56,25 @@ export default class Statistics extends Vue{
     date.setHours(hour);//设置当前时区
     const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date()+8*3600*1000)).format('YYYY')
     x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
-    // this.createdAt = date.toISOString();
+    this.createdAt = dayjs(date.toISOString()).format('YYYY-MM');
+    console.log(this.createdAt);
     this.$store.commit("inquireMonth",date.toISOString())
   }
    get recordList(){
      return this.$store.state.recordList;
    }
    get groupedList(){
-    const {recordList} = this;
-    if (recordList.length===0){return []}
+      const {recordList} = this;
      let newList = clone(recordList);
-     //filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
      if (this.type==='all'){
-       newList = clone(recordList)
+       newList = clone(recordList).filter((r: RecordItem) => this.createdAt==='a' ? this.createdAt===this.createdAt : (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM')))
            .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
      }else{
        newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
-       //filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
+           .filter((r: RecordItem) => this.createdAt==='a' ? this.createdAt===this.createdAt : (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM')))
            .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
      }
+     if (newList.length===0){return []}
      type Result = { title: string, total?: number, items: RecordItem[] }[]
      const result:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}];
      for (let i=1;i<newList.length;i++){
