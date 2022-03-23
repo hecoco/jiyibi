@@ -4,7 +4,7 @@
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
     <FormItem
       fieldName="备注"
-      placeholder="在这里输入标签名"
+      placeholder="在这里输入标备注"
       :value="record.formItem"
       @update:value="onUpdateFormItem"
     />

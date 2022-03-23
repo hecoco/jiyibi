@@ -4,16 +4,8 @@
         <date-picker :editable=editable type="month" :placeholder=dateX @input="di"  class="dates"></date-picker>
         <Tabs :value.sync="type" :data-source="detailsList" class-prefix="details"/>
       </div>
-<!--      <div class="xxx">-->
-<!--        <div class="sr">-->
-<!--          <span>总支出</span>-->
-<!--          <span>￥{{he[1].total}}</span>-->
-<!--        </div>-->
-<!--        <div class="zc">-->
-<!--          <span>{{ dateX }}总收入</span>-->
-<!--          <span>￥205902</span>-->
-<!--        </div>-->
-<!--      </div>-->
+      月支出:{{Month.zc}}
+      月收入:{{Month.sr}}
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{beautify(group.title)}} <span>总计：{{group.total}}</span></h3>
@@ -54,14 +46,18 @@ export default class Statistics extends Vue{
   type = 'all';
   month = '0'
   editable=false;//设置日期是否可以输入
-  dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月');//显示
+  dateX='点击选择月份';//显示
   createdAt= new Date(+new Date()+8*3600*1000).toISOString();
+  get Month(){
+    return this.$store.state.Month;
+  }
   di(date:Date){
     let hour = date.getHours()+8;
     date.setHours(hour);//设置当前时区
     const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date()+8*3600*1000)).format('YYYY')
     x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
-    this.createdAt = date.toISOString();
+    // this.createdAt = date.toISOString();
+    this.$store.commit("inquireMonth",date.toISOString())
   }
    get recordList(){
      return this.$store.state.recordList;
@@ -69,15 +65,14 @@ export default class Statistics extends Vue{
    get groupedList(){
     const {recordList} = this;
     if (recordList.length===0){return []}
-
      let newList = clone(recordList);
+     //filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
      if (this.type==='all'){
-       newList = clone(recordList).
-       filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
+       newList = clone(recordList)
            .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
      }else{
-       newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type).
-       filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
+       newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
+       //filter((m:RecordItem)=>dayjs(m.createdAt).format('YYYY-DD')===dayjs(this.createdAt).format('YYYY-DD'))
            .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
      }
      type Result = { title: string, total?: number, items: RecordItem[] }[]
@@ -114,12 +109,9 @@ export default class Statistics extends Vue{
       }
    }
   tagString(tags:Tag[]){
-
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
-   beforeCreate(){
-     this.$store.commit('fetchRecords')
-   }
+  //初始化
    mounted(){
      this.$store.commit('fetchRecords')
    }

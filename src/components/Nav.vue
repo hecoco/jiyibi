@@ -3,8 +3,8 @@
     <router-link to="/money" class="item" active-class="selected"
       ><Icon name="label" />记账
     </router-link>
-    <router-link to="/labels" class="item" active-class="selected">
-      <Icon name="money" /> 标签
+    <router-link to="/SummaryGraph" class="item" active-class="selected">
+      <Icon name="money" /> 统计
     </router-link>
     <router-link to="/statistics" class="item" active-class="selected">
       <Icon name="statistics" /> 统计
