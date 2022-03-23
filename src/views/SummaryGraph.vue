@@ -47,13 +47,11 @@ export default class SummaryGraph extends Vue {
     }
     if (newList.length===0){return []}
     for (let key in newList){
-     newList[key].createdAt = dayjs(newList[key].createdAt).format('YYYY-MM-DD')
+     newList[key].createdAt = dayjs(newList[key].createdAt).format('YYYY-MM-DD');
     }
-
     return newList;
   }
   get keyValueList(){
-    console.log(this.Result);
     const today = new Date();
     const array = [];
     for (let i=0;i<=29;i++){
@@ -62,12 +60,10 @@ export default class SummaryGraph extends Vue {
       const found = _.find(this.Result,{
         createdAt : dateString
       });
-      console.log(found)
       array.push({
         key:dateString,value:found ? found.amount : 0
       })
     }
-    console.log(array);
     array.sort((a,b)=>{
       if (a.key>b.key){
         return 1;
