@@ -1,6 +1,8 @@
 <template>
   <layout>
-    <Chart :options=x></Chart>
+    <div class="chart-wrapper" ref="chartWrapper">
+      <Chart class="chart" :options=x></Chart>
+    </div>
   </layout>
 </template>
 
@@ -14,6 +16,10 @@ import Chart from "@/components/Chart.vue"
 export default class SummaryGraph extends Vue{
   get x() {
     return {
+      grid:{
+        left:0,
+        right:0
+      },
       xAxis: {
         type: 'category',
         data: [
@@ -23,23 +29,32 @@ export default class SummaryGraph extends Vue{
         ]
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        show:false
       },
       series: [{
         data: [
           820, 932, 901, 934, 1290, 1330, 1320,
           820, 932, 901, 934, 1290, 1330, 1320,
           820, 932, 901, 934, 1290, 1330, 1320,
-          820, 932, 901, 934, 1290, 1330, 1320, 1, 2
+          820, 932, 901, 934, 1290, 1330, 1320, 13, 23
         ],
         type: 'line'
       }],
       tooltip: {show: true}
     };
   }
+  mounted(){
+    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+  }
 };
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .chart{
+    width: 430%;
+    &-wrapper{
+      overflow: auto;
+    }
+  }
 </style>
