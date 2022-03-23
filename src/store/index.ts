@@ -17,14 +17,14 @@ const store = new Vuex.Store({
 
   mutations: {
     fetchRecords(state) {
-      state.recordList = JSON.parse(window.localStorage.getItem('recodList') || '[]') as RecordItem[];
-      for (let key in state.recordList){
-        if (state.recordList[key].type==='-'){
-          state.Month.zc += state.recordList[key].amount
-        }else if (state.recordList[key].type==='+'){
-          state.Month.sr += state.recordList[key].amount
-        }
-      }
+      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
+      // for (let key in state.recordList){
+      //   if (state.recordList[key].type==='-'){
+      //     state.Month.zc += state.recordList[key].amount
+      //   }else if (state.recordList[key].type==='+'){
+      //     state.Month.sr += state.recordList[key].amount
+      //   }
+      // }
     },
     saveTags(state) {
       window.localStorage.setItem('tagsList', JSON.stringify(state.tagList));
@@ -38,7 +38,7 @@ const store = new Vuex.Store({
       store.commit('saveRecords');//如果需要在这里调用store,需要定义store,在返回
     },
     saveRecords(state) {
-      window.localStorage.setItem('recodList', JSON.stringify(state.recordList));
+      window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagsList') || '[]');
