@@ -148,6 +148,7 @@ export default class Statistics extends Vue{
   padding: 0 16px;
   &.selected {
     background: #42b983;
+    color: white;
     &::after {
       display: none;
     }
