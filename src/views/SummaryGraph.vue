@@ -26,10 +26,10 @@ import clone from "@/lib/clone";
 })
 export default class SummaryGraph extends Vue {
   editable = false;//设置日期是否可以输入
-  dateX = '点击选择月份';//显示
+  dateX = dayjs(new Date()).format('M月');//显示
   type = '-';
   createdAt=''
-
+//
   get recordList() {
     return this.$store.state.recordList;
   }
