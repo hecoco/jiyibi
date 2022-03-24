@@ -30,7 +30,7 @@ export default class SummaryGraph extends Vue {
   dateX = dayjs(new Date()).format('M月');//显示
   type = '-';
   createdAt=''
-
+//test
   get recordList() {
     return this.$store.state.recordList;
   }
