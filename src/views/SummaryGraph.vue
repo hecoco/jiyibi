@@ -3,7 +3,7 @@
     <div class="yyy">
       <date-picker :editable=editable type="month"
                    :placeholder=dateX @input="di" class="dates"></date-picker>
-      <Tabs :value.sync="type" :data-source="detailsList" class-prefix="details"/>
+      <Tabs :value.sync="type" :data-source="recordTypeList" class-prefix="details"/>
     </div>
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class="chart" :options='chartOptions'></Chart>
@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import DatePicker from "vue2-datepicker";
 import _ from 'lodash'
 import detailsList from "@/constant/detailsList";
+import recordTypeList from "@/constant/recordTypeList";
 import Tabs from "@/components/Tabs.vue";
 import clone from "@/lib/clone";
 
@@ -29,28 +30,29 @@ export default class SummaryGraph extends Vue {
   dateX = dayjs(new Date()).format('M月');//显示
   type = '-';
   createdAt=''
-//
+
   get recordList() {
     return this.$store.state.recordList;
   }
   get Result(){
     const {recordList} = this;
-    let newList = clone(recordList);
-    if (this.type==='all'){
-      newList = clone(recordList)
-          .filter((r: RecordItem) => this.createdAt===''
-              ?
-              this.createdAt===this.createdAt
-              :
-              (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM'))
-          )
-          .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-    }else{
-      newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
+    // let newList = clone(recordList);
+    // if (this.type==='all'){
+    //   newList = clone(recordList)
+    //       .filter((r: RecordItem) => this.createdAt===''
+    //           ?
+    //           this.createdAt===this.createdAt
+    //           :
+    //           (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM'))
+    //       )
+    //       .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    // }else{
+    const  newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
           .filter((r: RecordItem) => this.createdAt==='' ? this.createdAt===this.createdAt : (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM')))
           .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
-    }
+    // }
     if (newList.length===0){return []}
+    let num = 0;
     for (let key in newList){
      newList[key].createdAt = dayjs(newList[key].createdAt).format('YYYY-MM-DD');
     }
@@ -122,6 +124,7 @@ export default class SummaryGraph extends Vue {
     this.$store.commit('fetchRecords');
   }
   detailsList=detailsList
+  recordTypeList=recordTypeList
 };
 </script>
 

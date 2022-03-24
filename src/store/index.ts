@@ -17,8 +17,10 @@ const store = new Vuex.Store({
 
   mutations: {
     fetchRecords(state) {
+      state.Month={zc:0,sr:0}
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
       for (let key in state.recordList){
+        console.log(1)
         if (state.recordList[key].type==='-'){
           state.Month.zc += state.recordList[key].amount
         }else if (state.recordList[key].type==='+'){
@@ -110,25 +112,6 @@ const store = new Vuex.Store({
     //月份
     inquireMonth(state,date:string){
 
-
-      // console.log(dayjs(date).format('YYYY-MM'));
-      // let x = 0;
-      // let xx = 0;
-      // for (let key in state.recordList){
-      //   const a = state.recordList[key].type== '-'
-      //   const aa = state.recordList[key].type== '+'
-      //   const b = dayjs(state.recordList[key].createdAt).format("YYYY-MM") === dayjs(date).format('YYYY-MM')
-      //   const y = a && b;
-      //   if (y){
-      //     x += state.recordList[key].amount;
-      //   }
-      //   if (aa && b){
-      //     xx += state.recordList[key].amount;
-      //   }
-      // }
-      // state.Month.zc= x;
-      // state.Month.sr= xx;
-      // return state.Month;
     },
     inquireRecord(state, ids: string) {
       const idList = state.tagList.map(item => item.id);
