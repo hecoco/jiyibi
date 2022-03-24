@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     newRecordList: [] as RecordItem[],
     Month: {zc:0,sr:0} as {zc:number,sr:number},
   },
-
+//
   mutations: {
     fetchRecords(state) {
       state.Month={zc:0,sr:0}
