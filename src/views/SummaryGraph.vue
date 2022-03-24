@@ -28,7 +28,7 @@ export default class SummaryGraph extends Vue {
   editable = false;//设置日期是否可以输入
   dateX = '点击选择月份';//显示
   type = '-';
-  createdAt='a'
+  createdAt=''
 
   get recordList() {
     return this.$store.state.recordList;
@@ -38,11 +38,16 @@ export default class SummaryGraph extends Vue {
     let newList = clone(recordList);
     if (this.type==='all'){
       newList = clone(recordList)
-          .filter((r: RecordItem) => this.createdAt==='a' ? this.createdAt===this.createdAt : (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM')))
+          .filter((r: RecordItem) => this.createdAt===''
+              ?
+              this.createdAt===this.createdAt
+              :
+              (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM'))
+          )
           .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
     }else{
       newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
-          .filter((r: RecordItem) => this.createdAt==='a' ? this.createdAt===this.createdAt : (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM')))
+          .filter((r: RecordItem) => this.createdAt==='' ? this.createdAt===this.createdAt : (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM')))
           .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
     }
     if (newList.length===0){return []}
@@ -52,10 +57,10 @@ export default class SummaryGraph extends Vue {
     return newList;
   }
   get keyValueList(){
-    const today = new Date();
+    const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM-01');
     const array = [];
-    for (let i=0;i<=29;i++){
-      const dateString = dayjs(today).subtract(i,'day')
+    for (let i=0;i<dayjs(today).daysInMonth();i++){
+      const dateString = dayjs(today).add(i,'day')
           .format('YYYY-MM-DD');
       const found = _.find(this.Result,{
         createdAt : dateString
