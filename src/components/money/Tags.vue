@@ -38,8 +38,10 @@ export default class Tags extends Vue {
   }
 
   get types(){
-    const {tagsList} = this;
-    return clone(tagsList).filter((r:Tag)=> r.type ===this.type);
+    // const {tagsList} = this;
+    // return clone(tagsList).filter((r:Tag)=> r.type ===this.type);
+
+    return this.tagsList.filter((r:Tag)=> r.type ===this.type)
   }
 
   toggle(tag: string) {

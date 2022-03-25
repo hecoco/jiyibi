@@ -4,16 +4,26 @@
         <date-picker :editable=editable type="month" :placeholder=dateX @input="di"  class="dates"></date-picker>
         <Tabs :value.sync="type" :data-source="detailsList" class-prefix="details"/>
       </div>
-      月支出:{{Month.zc}}
-      月收入:{{Month.sr}}
+      <div class="moon">
+        <div>
+          <span>{{dateX}}支出:</span>
+          <span>￥{{Month.zc}}</span>
+        </div>
+        <div>
+          <span>{{dateX}}收入:</span>
+          <span>￥{{Month.sr}}</span>
+        </div>
+      </div>
       <ol v-if="groupedList.length>0">
-        <li v-for="(group,index) in groupedList" :key="index">
+        <li v-for="(group,index) in groupedList" :key="index" class="day">
           <h3 class="title">{{beautify(group.title)}} <span>总计：{{group.total}}</span></h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.id">
               <span>{{tagString(item.tags)}}</span>
               <span class="notes">{{item.formItem}}</span>
-              <span>{{item.type}}{{item.amount}}</span>
+              <span>
+                <span v-if="item.type==='-'">-</span>
+                {{item.amount}}</span>
             </li>
           </ol>
         </li>
@@ -46,7 +56,7 @@ export default class Statistics extends Vue{
   type = 'all';
   month = '0'
   editable=false;//设置日期是否可以输入
-  dateX='点击选择月份';//显示
+  dateX=dayjs(new Date(+new Date()+8*3600*1000)).format('M月');//显示
   createdAt= 'a';
   get Month(){
     return this.$store.state.Month;
@@ -58,7 +68,7 @@ export default class Statistics extends Vue{
     x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
     this.createdAt = dayjs(date.toISOString()).format('YYYY-MM');
     console.log(this.createdAt);
-    this.$store.commit("inquireMonth",date.toISOString())
+    this.$store.commit("inquireMonth",dayjs(date.toISOString()).format('YYYY-MM'))
   }
    get recordList(){
      return this.$store.state.recordList;
@@ -114,6 +124,7 @@ export default class Statistics extends Vue{
   //初始化
    mounted(){
      this.$store.commit('fetchRecords')
+     this.$store.commit('inquireMonth',dayjs(new Date()).format('YYYY-MM'))
    }
   interval = 'day';
   intervalList = intervalList;
@@ -124,6 +135,26 @@ export default class Statistics extends Vue{
 </script>
 
 <style lang="scss" scoped>
+.day{
+  border: 1px solid red;
+  margin: 16px 20px;
+}
+.moon{
+  display: flex;
+  flex-direction: row;
+  div{
+    margin-left:16px ;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    >span:first-child{
+      color: #A0A09E;
+    }
+    >span:last-child{
+      font-size: 20px;
+    }
+  }
+}
 .xxx{
   border: 1px solid red;
   display: flex;

@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 <template>
   <Layout class-prefix="layout">
-    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord" />
+    <NumberPad :value.sync="record.amount" @submit="saveRecord" />
     <FormItem
       fieldName="备注"
       placeholder="在这里输入标备注"
-      :value="record.formItem"
-      @update:value="onUpdateFormItem"
+      :value.sync="record.formItem"
     />
-    <Tags :type="type" :data-source.sync="recordList" @update:value="onUpdateTags" />
+    <Tags :type="type" :data-source.sync="recordList" :value.sync="record.tags" />
     <date-picker :editable=editable title-format="MM" :placeholder=dateX @input="di" class="dates"></date-picker>
     {{ record }}
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" @update:value="onUpdateType"/>
+    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
   </Layout>
 </template>
 <!--  暗黑模式加 50度灰在最上面  -->
@@ -38,10 +36,6 @@ export default class Money extends Vue {
   editable=false;//设置日期是否可以输入
   type='-';
   dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月D日');//显示
-  get recordList(){
-    return this.$store.state.recordList;
-  }
-  recordTypeList=recordTypeList;
   record: RecordItem = {
     tags: [],
     formItem: "",
@@ -56,25 +50,16 @@ export default class Money extends Vue {
     x ? this.dateX = dayjs(date.toISOString()).format('M月D日') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月D日')
     this.record.createdAt = date.toISOString();
   }
-  created(){
-    this.$store.commit('fetchRecords')
-  }
-
-  onUpdateTags(tags: Tag[]) {
-    this.record.tags = tags;
-  }
-  onUpdateFormItem(formItem: string) {
-    this.record.formItem = formItem;
-  }
-  onUpdateType(type: string) {
-    this.record.type = type;
-  }
-  onUpdateAmount(value: string) {
-    this.record.amount = parseFloat(value);
-  }
   saveRecord() {
     this.$store.commit('createRecord',this.record);
     this.record.formItem = "";
+  }
+  recordTypeList=recordTypeList;
+  created(){
+    this.$store.commit('fetchRecords')
+  }
+  get recordList(){
+    return this.$store.state.recordList;
   }
 }
 </script>

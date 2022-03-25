@@ -12,21 +12,11 @@ const store = new Vuex.Store({
     recordList: [] as RecordItem[],
     tagList: [] as Tag[],
     newRecordList: [] as RecordItem[],
-    Month: {zc:0,sr:0} as {zc:number,sr:number},
+    Month: {zc:0,sr:0} as {zc:number,sr:number},//月收入/支出
   },
-//
   mutations: {
     fetchRecords(state) {
-      state.Month={zc:0,sr:0}
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
-      for (let key in state.recordList){
-        console.log(1)
-        if (state.recordList[key].type==='-'){
-          state.Month.zc += state.recordList[key].amount
-        }else if (state.recordList[key].type==='+'){
-          state.Month.sr += state.recordList[key].amount
-        }
-      }
     },
     saveTags(state) {
       window.localStorage.setItem('tagsList', JSON.stringify(state.tagList));
@@ -46,7 +36,8 @@ const store = new Vuex.Store({
       state.tagList = JSON.parse(window.localStorage.getItem('tagsList') || '[]');
       if (!state.tagList || state.tagList.length === 0) {
        window.localStorage.setItem('tagsList','[\n' +
-           '{"id":"2","name":"工资","svg":"wage","type":"+"},\n' +
+           '{"id":"1","name":"支出","svg":"expenditure","type":"-"},\n' +
+           '{"id":"2","name":"收入","svg":"income","type":"+"},\n' +
            '{"id":"3","name":"转账","svg":"transfer","type":"+"},\n' +
            '{"id":"4","name":"红包","svg":"redPackets","type":"+"},\n' +
            '{"id":"5","name":"宠物","svg":"pet","type":"-"},\n' +
@@ -63,8 +54,7 @@ const store = new Vuex.Store({
            '{"id":"16","name":"还款","svg":"repayment","type":"-"},\n' +
            '{"id":"17","name":"租房","svg":"rent","type":"-"},\n' +
            '{"id":"18","name":"烟","svg":"cigarette","type":"-"},\n' +
-           '{"id":"19","name":"支出","svg":"expenditure","type":"-"},\n' +
-           '{"id":"20","name":"收入","svg":"income","type":"+"}\n' +
+           '{"id":"19","name":"工资","svg":"wage","type":"+"}\n' +
            ']')
       }
     },
@@ -110,8 +100,18 @@ const store = new Vuex.Store({
       return "not found";
     },
     //月份
-    inquireMonth(state,date:string){
-
+    inquireMonth(state,date){
+      state.Month={zc:0,sr:0}
+      for (let key in state.recordList){
+        const xxx = date === dayjs(state.recordList[key].createdAt).format('YYYY-MM')
+        if (xxx){
+          if (state.recordList[key].type==='-'){
+            state.Month.zc += state.recordList[key].amount
+          }else if (state.recordList[key].type==='+'){
+            state.Month.sr += state.recordList[key].amount
+          }
+        }
+      }
     },
     inquireRecord(state, ids: string) {
       const idList = state.tagList.map(item => item.id);
