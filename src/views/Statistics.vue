@@ -25,7 +25,7 @@
       </div>
     </div>
     <ol v-if="groupedList.length > 0">
-      <li v-for="(group, index) in xx" :key="index" class="day">
+      <li v-for="(group, index) in groupedList" :key="index" class="day">
         <h3 class="title">
           {{ beautify(group.title) }} <span>总计：{{ group.total }}</span>
         </h3>
