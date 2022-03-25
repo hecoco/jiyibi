@@ -36,15 +36,14 @@ export default class Money extends Vue {
   editable=false;//设置日期是否可以输入
   type='-';
   dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月D日');//显示
-  record: RecordItem = this.isRecord();
-  isRecord(): RecordItem {
-    return {
-    tags: { id: "1", name: "支出", svg: "expenditure", type: "-" },
-    formItem: "",
-    type: "-",
-    amount: 0,
-    createdAt: new Date(+new Date()+8*3600*1000).toISOString(),//设置当前时区
-  }};
+  record: RecordItem = {
+      tags: [{"id":"1","name":"支出","svg":"expenditure","type":"-"}],
+      formItem: "",
+      type: "-",
+      amount: 0,
+      createdAt: new Date(+new Date() + 8 * 3600 * 1000).toISOString(),//设置当前时区
+  }
+
   di(date:Date){
     let hour = date.getHours()+8;
     date.setHours(hour);//设置当前时区

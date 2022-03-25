@@ -1,5 +1,5 @@
 type RecordItem = {
-    tags: Tag;
+    tags: Tag[];
     formItem: string;
     type: string;
     amount: number;
