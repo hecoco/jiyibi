@@ -10,7 +10,7 @@
       <li
         v-for="tag in types"
         :key="tag.id"
-        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+        :class="{ selected: selectedTags.name === tag.name }"
         @click="toggle(tag)"
       >
         <Icon :name=tag.svg.trim() />
@@ -22,36 +22,30 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import {Component, Prop, Watch} from "vue-property-decorator";
 import clone from "@/lib/clone";
-@Component({
-  // computed:{
-  //   tagList(){return this.$store.state.tagList;}
-  // }
-})
+@Component
 export default class Tags extends Vue {
-  selectedTags: string[] = [];
+  @Prop() selectedTags!: Tag;
   @Prop() type!:string;
 
   get tagsList(){
     return this.$store.state.tagList;
   }
-
-  get types(){
-    // const {tagsList} = this;
-    // return clone(tagsList).filter((r:Tag)=> r.type ===this.type);
-
-    return this.tagsList.filter((r:Tag)=> r.type ===this.type)
-  }
-
-  toggle(tag: string) {
-    const index = this.selectedTags.indexOf(tag);
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-    } else {
-      this.selectedTags.push(tag);
+  @Watch('type')
+  updateTag(){
+    if (this.type==='-'){
+      this.toggle({"id":"1","name":"支出","svg":"expenditure","type":"-"})
+    }else if (this.type==='+'){
+      this.toggle({"id":"2","name":"收入","svg":"income","type":"+"})
     }
-    this.$emit("update:value", this.selectedTags);
+  }
+  get types(){
+    const {tagsList} = this;
+    return clone(tagsList).filter((r:Tag)=> r.type ===this.type);
+  }
+  toggle(tag: Tag) {
+    this.$emit("update:selectedTags", tag);
   }
   addTag(type:string) {
     const name = window.prompt("请输入标签名");

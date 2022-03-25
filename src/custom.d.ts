@@ -1,5 +1,5 @@
 type RecordItem = {
-    tags: Tag[];
+    tags: Tag;
     formItem: string;
     type: string;
     amount: number;
@@ -8,8 +8,8 @@ type RecordItem = {
 type Tag = {
     id: string;
     name: string;
-    svg:string;
-    type:string;
+    svg: string;
+    type: string;
 };
 type TagListModel = {
     data: Tag[];

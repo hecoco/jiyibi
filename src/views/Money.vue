@@ -6,7 +6,7 @@
       placeholder="在这里输入标备注"
       :value.sync="record.formItem"
     />
-    <Tags :type="type" :data-source.sync="recordList" :value.sync="record.tags" />
+    <Tags :type="type" :data-source.sync="recordList" :selectedTags.sync="record.tags" />
     <date-picker :editable=editable title-format="MM" :placeholder=dateX @input="di" class="dates"></date-picker>
     {{ record }}
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
@@ -36,13 +36,15 @@ export default class Money extends Vue {
   editable=false;//设置日期是否可以输入
   type='-';
   dateX=dayjs(new Date(+new Date()+8*3600*1000).toISOString()).format('M月D日');//显示
-  record: RecordItem = {
-    tags: [],
+  record: RecordItem = this.isRecord();
+  isRecord(): RecordItem {
+    return {
+    tags: { id: "1", name: "支出", svg: "expenditure", type: "-" },
     formItem: "",
     type: "-",
     amount: 0,
     createdAt: new Date(+new Date()+8*3600*1000).toISOString(),//设置当前时区
-  };
+  }};
   di(date:Date){
     let hour = date.getHours()+8;
     date.setHours(hour);//设置当前时区
