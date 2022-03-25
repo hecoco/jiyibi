@@ -30,7 +30,6 @@ export default class SummaryGraph extends Vue {
   dateX = dayjs(new Date()).format('M月');//显示
   type = '-';
   createdAt=''
-//test
   get recordList() {
     return this.$store.state.recordList;
   }
@@ -52,13 +51,17 @@ export default class SummaryGraph extends Vue {
           .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
     // }
     if (newList.length===0){return []}
-    let num = 0;
     for (let key in newList){
      newList[key].createdAt = dayjs(newList[key].createdAt).format('YYYY-MM-DD');
     }
     return newList;
   }
+  get xx(){
+    return this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt})
+  }
+
   get keyValueList(){
+    console.log(this.Result)
     const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM-01');
     const array = [];
     for (let i=0;i<dayjs(today).daysInMonth();i++){
@@ -92,6 +95,8 @@ export default class SummaryGraph extends Vue {
   get chartOptions() {
     const keys =this.keyValueList.map(item=>item.key)
     const values =this.keyValueList.map(item=>item.value)
+    console.log(1)
+    console.log(this.xx)
     return {
       grid: {
         left: 0,
