@@ -21,9 +21,6 @@ const store = new Vuex.Store({
     saveTags(state) {
       window.localStorage.setItem('tagsList', JSON.stringify(state.tagList));
     },
-    initMonth(state){
-      console.log(1)
-    },
     createRecord(state, record) {
       const record2: RecordItem = clone(record);
       state.recordList.push(record2);
@@ -106,9 +103,10 @@ const store = new Vuex.Store({
         const xxx = date === dayjs(state.recordList[key].createdAt).format('YYYY-MM')
         if (xxx){
           if (state.recordList[key].type==='-'){
-            state.Month.zc += state.recordList[key].amount
+            console.log(1)
+            state.Month.zc += parseInt(state.recordList[key].amount.toString())//??
           }else if (state.recordList[key].type==='+'){
-            state.Month.sr += state.recordList[key].amount
+            state.Month.sr += parseInt(state.recordList[key].amount.toString())
           }
         }
       }

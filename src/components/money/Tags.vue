@@ -35,9 +35,9 @@ export default class Tags extends Vue {
   @Watch('type')
   updateTag(){
     if (this.type==='-'){
-      this.toggle({"id":"1","name":"支出","svg":"expenditure","type":"-"})
+      //this.toggle({"id":"1","name":"支出","svg":"expenditure","type":"-"})
     }else if (this.type==='+'){
-      this.toggle({"id":"2","name":"收入","svg":"income","type":"+"})
+      //this.toggle({"id":"2","name":"收入","svg":"income","type":"+"})
     }
   }
   get types(){
@@ -79,7 +79,7 @@ export default class Tags extends Vue {
       background: $bg;
       $h: 24px;
       height: $h;
-      border-radius: ($h/2);//编译会报错
+      border-radius: 12px;//编译会报错
       line-height: $h;
       padding: 0 16px;
       margin-right: 12px;

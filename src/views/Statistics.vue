@@ -32,7 +32,7 @@
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
             <span>{{ tagString(item.tags) }}</span>
-            <span class="notes">{{ item.formItem }}</span>
+            <p class="notes">{{ item.formItem }}</p>
             <span>
               <span v-if="item.type === '-'">-</span>
               {{ item.amount }}</span
@@ -145,7 +145,7 @@ export default class Statistics extends Vue {
       }
     }
     result.map((group) => {
-      group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+      group.total = group.items.reduce((sum, item) => sum + parseInt(item.amount.toString()), 0);//??
     });
     return result;
   }
@@ -274,6 +274,7 @@ export default class Statistics extends Vue {
   color: #999999;
   width: 38vw;
   overflow: hidden; //??
+  text-overflow: ellipsis;
 }
 
 ::v-deep .type-tabs-item {
