@@ -88,10 +88,11 @@ export default class Money extends Vue {
 }
 
 ::v-deep .type-tabs-item {
+  background:#1b2838;
+  color: #4f94bc;
   &.selected {
     background: #42b983;
     color: white;
-
     &::after {
       display: none;
     }

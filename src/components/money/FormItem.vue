@@ -27,12 +27,14 @@ export default class FormItem extends Vue {
 
 <style lang="scss" scoped>
 .formItem {
-  background: #f5f5f5;
+  //background: #f5f5f5;
+  background: #1b2838;
   font-size: 14px;
   display: flex;
   padding-left: 16px;
   align-items: center;
   .name {
+    color: #67c1f5;
     padding-right: 16px;
   }
   input {
@@ -40,6 +42,7 @@ export default class FormItem extends Vue {
     flex-grow: 1;
     background: transparent;
     border: none;
+    color: #c6d4df;
   }
 }
 </style>

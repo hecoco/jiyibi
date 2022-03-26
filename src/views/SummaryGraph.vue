@@ -109,7 +109,10 @@ export default class SummaryGraph extends Vue {
       series: [{
         symbolSize:12,
         data: values,
-        type: 'line'
+        type: 'line',
+        markPoint:{
+          symbol:"pin"
+        }
       }],
       tooltip: {show: true,triggerOn:'click',formatter:'{c}',position:'top'}
     };

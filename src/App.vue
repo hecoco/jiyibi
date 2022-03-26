@@ -42,6 +42,7 @@ input {
   line-height: 1.5;
   font-family: $font-hei;
   font-size: 16px;
-  background: #f5f5f5;
+  //background: #f5f5f5;
+  background: #121A24;
 }
 </style>
