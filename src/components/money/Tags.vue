@@ -75,7 +75,7 @@ export default class Tags extends Vue {
     display: flex;
     flex-wrap: wrap;
     > li {
-      $bg: #d9d9d9;
+      $bg: #1b2838;
       background: $bg;
       $h: 24px;
       height: $h;
@@ -84,9 +84,12 @@ export default class Tags extends Vue {
       padding: 0 16px;
       margin-right: 12px;
       margin-top: 4px;
+      color: #67c1f5;
       &.selected {
-        background: darken($bg, 50%);
-        color: white;
+        //background: darken($bg, 50%);
+        //color: white;
+        background: #67c1f5;
+        color: #fff;
       }
     }
   }
