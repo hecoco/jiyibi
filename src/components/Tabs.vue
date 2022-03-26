@@ -4,7 +4,8 @@
         :class="liClass(item)"
         :style="{height:height}"
         class="tabs-item"
-        @click="select(item)">{{item.text}}</li>
+        @click="select(item)">
+      {{item.text}}</li>
   </ul>
 </template>
 

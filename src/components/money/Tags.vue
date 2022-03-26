@@ -35,9 +35,9 @@ export default class Tags extends Vue {
   @Watch('type')
   updateTag(){
     if (this.type==='-'){
-      //this.toggle({"id":"1","name":"支出","svg":"expenditure","type":"-"})
+      this.toggle({"id":"1","name":"支出","svg":"expenditure","type":"-"})
     }else if (this.type==='+'){
-      //this.toggle({"id":"2","name":"收入","svg":"income","type":"+"})
+      this.toggle({"id":"2","name":"收入","svg":"income","type":"+"})
     }
   }
   get types(){

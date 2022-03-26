@@ -22,6 +22,7 @@ import recordTypeList from "@/constant/recordTypeList";
 import Tabs from "@/components/Tabs.vue";
 import clone from "@/lib/clone";
 
+type Result = { title: string; total?: number; items: RecordItem[] }[];
 @Component({
   components: {Chart, DatePicker,Tabs}
 })
@@ -29,27 +30,16 @@ export default class SummaryGraph extends Vue {
   editable = false;//设置日期是否可以输入
   dateX = dayjs(new Date()).format('M月');//显示
   type = '-';
-  createdAt=''
+  createdAt=dayjs(new Date()).format("YYYY-MM");
+
   get recordList() {
     return this.$store.state.recordList;
   }
   get Result(){
     const {recordList} = this;
-    // let newList = clone(recordList);
-    // if (this.type==='all'){
-    //   newList = clone(recordList)
-    //       .filter((r: RecordItem) => this.createdAt===''
-    //           ?
-    //           this.createdAt===this.createdAt
-    //           :
-    //           (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM'))
-    //       )
-    //       .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-    // }else{
     const  newList = clone(recordList).filter( (r: RecordItem) => r.type===this.type)
           .filter((r: RecordItem) => this.createdAt==='' ? this.createdAt===this.createdAt : (dayjs(this.createdAt).format('YYYY-MM')===dayjs( r.createdAt).format('YYYY-MM')))
           .sort((a: RecordItem, b:RecordItem ) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
-    // }
     if (newList.length===0){return []}
     for (let key in newList){
      newList[key].createdAt = dayjs(newList[key].createdAt).format('YYYY-MM-DD');
@@ -57,11 +47,10 @@ export default class SummaryGraph extends Vue {
     return newList;
   }
   get xx(){
-    return this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt})
+    return this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
   }
 
   get keyValueList(){
-    console.log(this.Result)
     const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM-01');
     const array = [];
     for (let i=0;i<dayjs(today).daysInMonth();i++){
@@ -95,7 +84,6 @@ export default class SummaryGraph extends Vue {
   get chartOptions() {
     const keys =this.keyValueList.map(item=>item.key)
     const values =this.keyValueList.map(item=>item.value)
-    console.log(1)
     console.log(this.xx)
     return {
       grid: {

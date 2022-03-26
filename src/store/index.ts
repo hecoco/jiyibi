@@ -5,6 +5,7 @@ import createId from "@/lib/createld";
 import dayjs from "dayjs"
 
 type he= {sr:number,zc:number}
+type Result = { title: string; total?: number; items: RecordItem[] }[];
 
 Vue.use(Vuex);
 const store = new Vuex.Store({
@@ -13,6 +14,7 @@ const store = new Vuex.Store({
     tagList: [] as Tag[],
     newRecordList: [] as RecordItem[],
     Month: {zc:0,sr:0} as {zc:number,sr:number},//月收入/支出
+    result: {} as Result
   },
   mutations: {
     fetchRecords(state) {
@@ -127,10 +129,9 @@ const store = new Vuex.Store({
       return state.newRecordList;
     },
     xxxx(state, {type,createdAt}){
-      const { recordList } = state;
-      let newList = clone(recordList);
+      let newList = clone(state.recordList);
       if (type === "all") {
-        newList = clone(recordList)
+        newList = clone(state.recordList)
             .filter((r: RecordItem) =>
                 createdAt === "a"
                     ? createdAt === createdAt
@@ -141,8 +142,8 @@ const store = new Vuex.Store({
                 (a: RecordItem, b: RecordItem) =>
                     dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
             );
-      } else {
-        newList = clone(recordList)
+      }else{
+        newList = clone(state.recordList)
             .filter((r: RecordItem) => r.type === type)
             .filter((r: RecordItem) =>
                 createdAt === "a"
@@ -155,12 +156,12 @@ const store = new Vuex.Store({
                     dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
             );
       }
-      console.log(newList);
+
       if (newList.length === 0) {
         return [];
       }
-      type Result = { title: string; total?: number; items: RecordItem[] }[];
-      const result: Result = [
+      // type Result = { title: string; total?: number; items: RecordItem[] }[];
+      state.result = [
         {
           title: dayjs(newList[0].createdAt).format("YYYY-MM-DD"),
           items: [newList[0]],
@@ -168,20 +169,21 @@ const store = new Vuex.Store({
       ];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
-        const last = result[result.length - 1];
+        const last = state.result[state.result.length - 1];
         if (dayjs(last.title).isSame(dayjs(current.createdAt), "day")) {
           last.items.push(current);
         } else {
-          result.push({
+          state.result.push({
             title: dayjs(current.createdAt).format("YYYY-MM-DD"),
             items: [current],
           });
         }
       }
-      result.map((group) => {
+      state.result.map((group) => {
         group.total = group.items.reduce((sum, item) => sum + parseInt(item.amount.toString()), 0);//??
       });
-      return result;
+      console.log(state.result)
+      return state.result;
     }
   },
 });
