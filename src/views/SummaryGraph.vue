@@ -22,7 +22,6 @@ import recordTypeList from "@/constant/recordTypeList";
 import Tabs from "@/components/Tabs.vue";
 import clone from "@/lib/clone";
 
-type Result = { title: string; total?: number; items: RecordItem[] }[];
 @Component({
   components: {Chart, DatePicker,Tabs}
 })
@@ -49,18 +48,22 @@ export default class SummaryGraph extends Vue {
   get xx(){
     return this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
   }
+  get resultList(){
+    return this.$store.state.result;
+  }
 
   get keyValueList(){
+    this.xx
     const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM-01');
     const array = [];
     for (let i=0;i<dayjs(today).daysInMonth();i++){
       const dateString = dayjs(today).add(i,'day')
           .format('YYYY-MM-DD');
-      const found = _.find(this.Result,{
-        createdAt : dateString
+      const found = _.find(this.resultList,{
+        title : dateString
       });
       array.push({
-        key:dateString,value:found ? found.amount : 0
+        key:dateString,value:found ? found.total : 0
       })
     }
     array.sort((a,b)=>{
@@ -84,7 +87,6 @@ export default class SummaryGraph extends Vue {
   get chartOptions() {
     const keys =this.keyValueList.map(item=>item.key)
     const values =this.keyValueList.map(item=>item.value)
-    console.log(this.xx)
     return {
       grid: {
         left: 0,

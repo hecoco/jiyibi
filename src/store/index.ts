@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import clone from "@/lib/clone";
 import createId from "@/lib/createld";
 import dayjs from "dayjs"
+import {toNumber} from "lodash";
 
 type he= {sr:number,zc:number}
 type Result = { title: string; total?: number; items: RecordItem[] }[];
@@ -105,10 +106,9 @@ const store = new Vuex.Store({
         const xxx = date === dayjs(state.recordList[key].createdAt).format('YYYY-MM')
         if (xxx){
           if (state.recordList[key].type==='-'){
-            console.log(1)
-            state.Month.zc += parseInt(state.recordList[key].amount.toString())//??
+            state.Month.zc += toNumber(state.recordList[key].amount)//??
           }else if (state.recordList[key].type==='+'){
-            state.Month.sr += parseInt(state.recordList[key].amount.toString())
+            state.Month.sr += toNumber(state.recordList[key].amount)
           }
         }
       }
@@ -180,9 +180,8 @@ const store = new Vuex.Store({
         }
       }
       state.result.map((group) => {
-        group.total = group.items.reduce((sum, item) => sum + parseInt(item.amount.toString()), 0);//??
+        group.total = group.items.reduce((sum, item) => sum + toNumber(item.amount), 0);//??
       });
-      console.log(state.result)
       return state.result;
     }
   },
