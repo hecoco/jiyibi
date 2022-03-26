@@ -37,7 +37,7 @@ export default class Money extends Vue {
   type = '-';
   dateX = dayjs(new Date(+new Date() + 8 * 3600 * 1000).toISOString()).format('M月D日');//显示
   record: RecordItem = {
-    tags: [{"id": "1", "name": "支出", "svg": "expenditure", "type": "-"}],
+    tags: {"id": "1", "name": "支出", "svg": "expenditure", "type": "-"},
     formItem: "",
     type: "-",
     amount: 0,

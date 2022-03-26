@@ -31,7 +31,7 @@
         </h3>
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
-            <span>{{ tagString(item.tags) }}</span>
+            <span><Icon :name="item.tags.svg" />&nbsp&nbsp{{item.tags.name}}</span>
             <p class="notes">{{ item.formItem }}</p>
             <span>
               <span v-if="item.type === '-'">-</span>
@@ -176,10 +176,6 @@ export default class Statistics extends Vue {
     } else {
       return day.format("YYYY年M月D日");
     }
-  }
-  //
-  tagString(tags: Tag[]) {
-    return tags.length === 0 ? "无" : tags.map((t) => t.name).join("，");
   }
   //初始化
   mounted() {

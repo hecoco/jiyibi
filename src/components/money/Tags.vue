@@ -10,11 +10,11 @@
       <li
         v-for="tag in types"
         :key="tag.id"
-        :class="{ selected: selectedTags[0].name === tag.name }"
+        :class="{ selected: selectedTags.name === tag.name }"
         @click="toggle(tag)"
       >
         <Icon :name=tag.svg.trim() />
-        <span> {{ tag.name }}</span>
+        <span>{{ tag.name }}</span>
       </li>
     </ul>
   </div>
@@ -26,7 +26,7 @@ import {Component, Prop, Watch} from "vue-property-decorator";
 import clone from "@/lib/clone";
 @Component
 export default class Tags extends Vue {
-  @Prop() selectedTags!: Tag[];
+  @Prop() selectedTags!: Tag;
   @Prop() type!:string;
 
   get tagsList(){
@@ -44,8 +44,8 @@ export default class Tags extends Vue {
     const {tagsList} = this;
     return clone(tagsList).filter((r:Tag)=> r.type ===this.type);
   }
-  toggle(tag: Tag[]) {
-    this.$emit("update:selectedTags", [tag]);
+  toggle(tag: Tag) {
+    this.$emit("update:selectedTags", tag);
   }
   addTag(type:string) {
     const name = window.prompt("请输入标签名");
