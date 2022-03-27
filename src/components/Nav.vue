@@ -4,10 +4,10 @@
       ><Icon name="label" />记账
     </router-link>
     <router-link to="/SummaryGraph" class="item" active-class="selected">
-      <Icon name="money" /> 统计
+      <Icon name="statistics" /> 统计
     </router-link>
     <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="statistics" /> 统计
+      <Icon name="Details" /> 详情
     </router-link>
   </nav>
 </template>
@@ -23,9 +23,10 @@ export default {
 
 nav {
   display: flex;
-  box-shadow: 0 0 3px reba(0, 0, 0, 0.25);
+  //box-shadow: 0 0 3px reba(0, 0, 0, 0.25);
   flex-direction: row;
   > .item {
+    color: #1B435E;
     width: 33.33%;
     display: flex;
     justify-content: center;
@@ -33,12 +34,12 @@ nav {
     flex-direction: column;
     padding: 2px 0;
     .icon {
-      widows: 32px;
+      width: 24px;
       height: 32px;
     }
   }
   > .item.selected {
-    color: $color-highlight;
+    color: #58A6D4;
   }
 }
 </style>

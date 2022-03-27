@@ -27,7 +27,7 @@
     <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index" class="day">
         <h3 class="title">
-          {{ beautify(group.title) }} <span>总计：{{ group.total }}</span>
+          {{ beautify(group.title) }} <span v-if="type!='all'">总计：{{ group.total }}</span>
         </h3>
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
@@ -70,7 +70,7 @@ export default class Statistics extends Vue {
   type = "all";
   month = "0";
   editable = false; //设置日期是否可以输入
-  dateX = dayjs(new Date(+new Date() + 8 * 3600 * 1000)).format("M月"); //显示
+  dateX = dayjs(new Date()).format("M月"); //显示
   createdAt = "a";
 
   get Month() {
@@ -82,7 +82,7 @@ export default class Statistics extends Vue {
     date.setHours(hour); //设置当前时区
     const x =
         dayjs(date.toISOString()).format("YYYY") ===
-        dayjs(new Date(+new Date() + 8 * 3600 * 1000)).format("YYYY");
+        dayjs(new Date()).format("YYYY");
     x
         ? (this.dateX = dayjs(date.toISOString()).format("M月"))
         : (this.dateX = dayjs(date.toISOString()).format("YYYY年M月"));

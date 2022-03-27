@@ -35,7 +35,7 @@ import 'vue2-datepicker/locale/zh-cn';
 export default class Money extends Vue {
   editable = false;//设置日期是否可以输入
   type = '-';
-  dateX = dayjs(new Date(+new Date() + 8 * 3600 * 1000).toISOString()).format('M月D日');//显示
+  dateX = dayjs(new Date().toISOString()).format('M-D');//显示 +new Date() + 8 * 3600 * 1000
   record: RecordItem = {
     tags: {"id": "1", "name": "支出", "svg": "expenditure", "type": "-"},
     formItem: "",
@@ -47,7 +47,7 @@ export default class Money extends Vue {
   di(date: Date) {
     let hour = date.getHours() + 8;
     date.setHours(hour);//设置当前时区
-    const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date() + 8 * 3600 * 1000)).format('YYYY')
+    const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date()).format('YYYY')
     x ? this.dateX = dayjs(date.toISOString()).format('M月D日') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月D日')
     this.record.createdAt = date.toISOString();
   }

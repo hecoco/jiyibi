@@ -79,15 +79,13 @@ export default class Tags extends Vue {
       background: $bg;
       $h: 24px;
       height: $h;
-      border-radius: 12px;//编译会报错
+      border-radius: 12px;
       line-height: $h;
       padding: 0 16px;
       margin-right: 12px;
       margin-top: 4px;
       color: #67c1f5;
       &.selected {
-        //background: darken($bg, 50%);
-        //color: white;
         background: #67c1f5;
         color: #fff;
       }
