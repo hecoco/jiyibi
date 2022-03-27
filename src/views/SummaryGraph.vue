@@ -90,8 +90,9 @@ export default class SummaryGraph extends Vue {
     return {
       grid: {
         left: 0,
-        right: 0
+        right: 0,
       },
+      backgroundColor:"rgba(42, 71, 94,1)",
       xAxis: {
         type: 'category',
         axisTick:{alignWithLabel:true},
@@ -99,8 +100,10 @@ export default class SummaryGraph extends Vue {
         axisLabel:{
           formatter: function (value:string,index:number){
             return value.substr(5)
-          }
-        }
+          },
+          color:"rgba(98, 185, 236,1)",
+          lineHeight: 24
+        },
       },
       yAxis: {
         type: 'value',
@@ -112,7 +115,10 @@ export default class SummaryGraph extends Vue {
         type: 'line',
         markPoint:{
           symbol:"pin"
-        }
+        },
+        itemStyle:{
+          color:"rgba(102, 192, 244,1)"
+        },
       }],
       tooltip: {show: true,triggerOn:'click',formatter:'{c}',position:'top'}
     };

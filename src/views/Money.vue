@@ -66,9 +66,34 @@ export default class Money extends Vue {
   onUpdateTabs(type:string){
     this.record.type = type
   }
-
   get recordList() {
     return this.$store.state.recordList;
+  }
+  beforeCreate(){
+    const tagList = JSON.parse(window.localStorage.getItem('tagsList') || '[]');
+    if (tagList || tagList.length === 0) {
+      window.localStorage.setItem('tagsList','[\n' +
+          '{"id":"1","name":"支出","svg":"expenditure","type":"-"},\n' +
+          '{"id":"2","name":"收入","svg":"income","type":"+"},\n' +
+          '{"id":"3","name":"转账","svg":"transfer","type":"+"},\n' +
+          '{"id":"4","name":"红包","svg":"redPackets","type":"+"},\n' +
+          '{"id":"5","name":"宠物","svg":"pet","type":"-"},\n' +
+          '{"id":"6","name":"酒店","svg":"hotel","type":"-"},\n' +
+          '{"id":"7","name":"医疗","svg":"medical","type":"-"},\n' +
+          '{"id":"8","name":"理财","svg":"fund","type":"+"},\n' +
+          '{"id":"9","name":"服饰","svg":"apparel","type":"-"},\n' +
+          '{"id":"10","name":"娱乐","svg":"entertainment","type":"-"},\n' +
+          '{"id":"11","name":"生活缴费","svg":"livingExpenses","type":"-"},\n' +
+          '{"id":"12","name":"零食","svg":"snack","type":"-"},\n' +
+          '{"id":"13","name":"通勤","svg":"commute","type":"-"},\n' +
+          '{"id":"14","name":"水果","svg":"fruit","type":"-"},\n' +
+          '{"id":"15","name":"餐饮","svg":"food","type":"-"},\n' +
+          '{"id":"16","name":"还款","svg":"repayment","type":"-"},\n' +
+          '{"id":"17","name":"租房","svg":"rent","type":"-"},\n' +
+          '{"id":"18","name":"烟","svg":"cigarette","type":"-"},\n' +
+          '{"id":"19","name":"工资","svg":"wage","type":"+"}\n' +
+          ']')
+    }
   }
 }
 </script>
