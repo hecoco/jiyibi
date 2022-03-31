@@ -4,6 +4,7 @@ import clone from "@/lib/clone";
 import createId from "@/lib/createld";
 import dayjs from "dayjs"
 import {toNumber} from "lodash";
+import _ from 'lodash'
 
 type Result = { title: string; total?: number; items: RecordItem[] }[];
 
@@ -14,7 +15,8 @@ const store = new Vuex.Store({
         tagList: [] as Tag[],
         newRecordList: [] as RecordItem[],
         Month: {zc: 0, sr: 0} as { zc: number, sr: number },//月收入/支出
-        result: {} as Result
+        result: {} as Result,
+        statisticsTags:{} as {title:string,value:number,name:string}[]
     },
     mutations: {
         fetchRecords(state) {
@@ -33,7 +35,6 @@ const store = new Vuex.Store({
         },
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagsList') || '[]');
-
         },
         createTag(state, {name, type}) {
             const id = createId().toString();
@@ -111,10 +112,10 @@ const store = new Vuex.Store({
                     (a: RecordItem, b: RecordItem) =>
                         dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
                 );
-            console.log(newList);
             if (newList.length === 0) {
                 return state.result=[];
             }
+            console.log(newList);
             state.result = [
                 {
                     title: dayjs(newList[0].createdAt).format("YYYY-MM-DD"),
@@ -136,7 +137,31 @@ const store = new Vuex.Store({
             state.result.map((group) => {
                 group.total = group.items.reduce((sum, item) => sum + toNumber(item.amount), 0);//??
             });
+            console.log(state.result);
             return state.result;
+        },
+        statisticsTags(state,type){
+            //{title:2022-03,total:171,name:'房租'}
+            let newList = clone(state.recordList).filter((r: RecordItem) => r.type === type);
+            if (newList.length === 0) {
+                return state.result=[];
+            }
+            console.log('---------------------')
+            for (let i=0;i< state.tagList.length;i++){
+                const a = state.tagList[i].id;
+
+                for (let n=0;i<newList.length;n++){
+                    const b = newList[n].tags.id;
+                    console.log(a,b)
+                    const xx = _.find(newList,{a:b})
+                    console.log(xx)
+                }
+                // console.log("newList")
+                // console.log(newList[i].tags);
+                // console.log("state")
+                // console.log(state.tagList[i]);
+            }
+            return;
         }
     },
 });

@@ -2,9 +2,15 @@
   <layout>
     <div class="tags">
       <div v-for="tag in tagList" :key="tag.id">
-        <div class="tag" @click="coll($event)">
-          {{ tag.name }}
-          <Icon name="right"/>
+        <div class="tag" >
+          <div>
+            <span>{{ tag.name }}</span>
+          </div>
+          <div>
+            <Icon name="deleteTag" @click.native="remove(tag.id)"/>
+            &nbsp&nbsp
+            <Icon name="updateTag" @click.native="updateName(tag.id, tag.name)"/>
+          </div>
         </div>
         <div class="contenta">
           <div>
@@ -77,37 +83,41 @@ export default class Labels extends Vue {
     }
   }
   remove(id: string) {
-    this.$store.commit('removeTag', id)
+    let isDelete = confirm("您确定要删除吗？");
+    if (isDelete){
+      this.$store.commit('removeTag', id)
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  appearance: none;
-}
+//input[type=number]::-webkit-inner-spin-button,
+//input[type=number]::-webkit-outer-spin-button {
+//  -webkit-appearance: none;
+//  appearance: none;
+//}
 
 .tags {
   background: white;
   font-size: 16px;
   padding-left: 16px;
-
+  color: #67c1f5;
+  background: #67c1f51A;
   > div {
     > .tag {
       min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #e6e6e6;
-
+      border-bottom: 3px solid #16202D;
       svg {
         width: 18px;
         height: 18px;
-        color: #666;
+        color: white;
         margin-right: 16px;
       }
+
     }
 
     > .contenta {
@@ -117,17 +127,6 @@ input[type=number]::-webkit-outer-spin-button {
     }
   }
 }
-
-.deleteBut {
-  background: darkred;
-  min-width: 30vw;
-}
-
-.updateBut {
-  background: cornflowerblue;
-  min-width: 30vw;
-}
-
 .addTag {
   background: #767676;
   color: white;
@@ -135,7 +134,6 @@ input[type=number]::-webkit-outer-spin-button {
   border: none;
   height: 36px;
   padding: 0 16px;
-
   &-wrapper {
     text-align: center;
     padding: 16px;

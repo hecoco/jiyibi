@@ -45,18 +45,13 @@ export default class SummaryGraph extends Vue {
     }
     return newList;
   }
-  get xx(){
-    return this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
-  }
   get resultList(){
     return this.$store.state.result;
   }
-
   get keyValueList(){
-    this.xx
     const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM-01');
     const array = [];
-    for (let i=0;i<dayjs(today).daysInMonth();i++){
+    for (let i=0;i<dayjs(today).daysInMonth();i++){//循环每月的天数
       const dateString = dayjs(today).add(i,'day')
           .format('YYYY-MM-DD');
       const found = _.find(this.resultList,{
@@ -126,6 +121,7 @@ export default class SummaryGraph extends Vue {
   mounted() {
     (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
     this.$store.commit('fetchRecords');
+    this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
   }
   detailsList=detailsList
   recordTypeList=recordTypeList
