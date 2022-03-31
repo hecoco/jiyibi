@@ -1,10 +1,10 @@
 <template>
   <nav>
     <router-link to="/money" class="item" active-class="selected"
-      ><Icon name="label" />记账
+      ><Icon name="jiyibi" />记账
     </router-link>
     <router-link to="/labels" class="item" active-class="selected">
-      <Icon name="Details" /> 标签
+      <Icon name="label" /> 标签
     </router-link>
     <router-link to="/SummaryGraph" class="item" active-class="selected">
       <Icon name="statistics" /> 统计

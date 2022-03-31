@@ -3,7 +3,7 @@
     <div class="yyy">
       <date-picker :editable=editable type="month"
                    :placeholder=dateX @input="di" class="dates"></date-picker>
-      <Tabs :value.sync="type" :data-source="recordTypeList" class-prefix="details"/>
+      <Tabs class="xxx" :value.sync="type" :data-source="recordTypeList" class-prefix="details"/>
     </div>
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class="chart" :options='chartOptions'></Chart>
@@ -148,8 +148,8 @@ export default class SummaryGraph extends Vue {
 .yyy{
   display: flex;
   flex-direction: row;
-  width: 100vw;
 }
+
 .chart {
   width: 430%;
 
