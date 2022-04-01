@@ -5,6 +5,14 @@
                    :placeholder=dateX @input="di" class="dates"></date-picker>
       <Tabs class="xxx" :value.sync="type" :data-source="recordTypeList" class-prefix="details"/>
     </div>
+    <div>
+      <div class="title">
+        月支出：
+        <span>
+          -20000
+        </span>
+      </div>
+    </div>
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class="chart" :options='chartOptions'></Chart>
     </div>
@@ -52,10 +60,10 @@ export default class SummaryGraph extends Vue {
     const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM-01');
     const array = [];
     for (let i=0;i<dayjs(today).daysInMonth();i++){//循环每月的天数
-      const dateString = dayjs(today).add(i,'day')
-          .format('YYYY-MM-DD');
+      const dateString = i+1
       const found = _.find(this.resultList,{
-        title : dateString
+        title : dayjs(today).add(i,'day')
+            .format('YYYY-MM-DD')
       });
       array.push({
         key:dateString,value:found ? found.total : 0
@@ -81,6 +89,7 @@ export default class SummaryGraph extends Vue {
   }
   get chartOptions() {
     const keys =this.keyValueList.map(item=>item.key)
+    console.log(keys)
     const values =this.keyValueList.map(item=>item.value)
     return {
       grid: {
@@ -93,11 +102,13 @@ export default class SummaryGraph extends Vue {
         axisTick:{alignWithLabel:true},
         data: keys,
         axisLabel:{
-          formatter: function (value:string,index:number){
-            return value.substr(5)
-          },
+          // formatter: function (value:string,index:number){
+          //   return value.substr(9)
+          // },
           color:"rgba(98, 185, 236,1)",
-          lineHeight: 24
+          // lineHeight: 24,
+          interval: 0,
+          fontSize: 10
         },
       },
       yAxis: {
@@ -105,21 +116,24 @@ export default class SummaryGraph extends Vue {
         show: false
       },
       series: [{
-        symbolSize:12,
+        // symbolSize:12,
         data: values,
-        type: 'line',
+        type: 'bar',
         markPoint:{
           symbol:"pin"
+        },
+        label: {
         },
         itemStyle:{
           color:"rgba(102, 192, 244,1)"
         },
+        barWidth:2,
       }],
       tooltip: {show: true,triggerOn:'click',formatter:'{c}',position:'top'}
     };
   }
   mounted() {
-    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+    // (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
     this.$store.commit('fetchRecords');
     this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
   }
@@ -129,6 +143,18 @@ export default class SummaryGraph extends Vue {
 </script>
 
 <style scoped lang="scss">
+.title{
+  color: #67c1f5;
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+  background: #2A475E;
+  border-bottom: 2px solid #121A24;
+  span{
+    font-size: 28px;
+    font-weight: bold;
+  }
+}
 ::v-deep .details-tabs {
   height: 34px;
   font-size: 14px;
@@ -151,8 +177,7 @@ export default class SummaryGraph extends Vue {
 }
 
 .chart {
-  width: 430%;
-
+  //width: 360%;
   &-wrapper {
     overflow: auto;
 
