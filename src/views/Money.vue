@@ -71,7 +71,7 @@ export default class Money extends Vue {
   }
   beforeCreate(){
     const tagList = JSON.parse(window.localStorage.getItem('tagsList') || '[]');
-    if (tagList || tagList.length === 0) {
+    if (tagList && tagList.length === 0) {
       window.localStorage.setItem('tagsList','[\n' +
           '{"id":"1","name":"支出","svg":"expenditure","type":"-"},\n' +
           '{"id":"2","name":"收入","svg":"income","type":"+"},\n' +
