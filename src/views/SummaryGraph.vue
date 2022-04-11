@@ -112,16 +112,24 @@ export default class SummaryGraph extends Vue {
         data: values,
         type: 'bar',
         markPoint:{
-          symbol:"pin"
-        },
-        label: {
+          symbol:"pin",
+          symbolSize:'8'
         },
         itemStyle:{
-          color:"rgba(102, 192, 244,1)"
+          normal:{
+          color:"rgba(102, 192, 244,1)",
+            label:{
+              show:true,//在统计图上显示全部数值
+              position:'top',
+              textStyle:{
+                color:"rgba(102, 192, 244,1)",
+                fontSize:8
+              }
+            }
+          }
         },
-        barWidth:2,
+        barWidth:4,
       }],
-      tooltip: {show: true,triggerOn:'click',formatter:'{c}',position:'top'}
     };
   }
   mounted() {

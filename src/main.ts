@@ -28,8 +28,8 @@ if (document.documentElement.clientWidth > 500) {
   img.style.top = '50%'
   img.style.transform = 'translate(-50%,-50%)'
   img.style.boxShadow = '0 0 10px rgba(0,0,0,0.25)'
-  img.onclick = () => {
-    img.style.display = 'none'
+  document.documentElement.onclick = () => {
+    img.style.display = 'none'//点击任何地方隐藏二维码
   }
   document.body.appendChild(img)
 }

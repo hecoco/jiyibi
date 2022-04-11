@@ -22,9 +22,6 @@
           </div>
         </div>
       </div>
-      <div class="addTag-wrapper">
-        <But class="addTag" @click.native="addTag">新建</But>
-      </div>
     </div>
   </layout>
 </template>
