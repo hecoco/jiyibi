@@ -6,6 +6,10 @@ set -e
 # 构建
 yarn build
 
+# 把域名文件复制到dist目录
+# 让github自动解析域名
+cp CNAME dist/
+
 # cd 到构建输出的目录下
 cd dist
 
