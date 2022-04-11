@@ -5,14 +5,6 @@
                    :placeholder=dateX @input="di" class="dates"></date-picker>
       <Tabs class="xxx" :value.sync="type" :data-source="recordTypeList" class-prefix="details"/>
     </div>
-    <div>
-      <div class="title">
-        月支出：
-        <span>
-          -20000
-        </span>
-      </div>
-    </div>
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class="chart" :options='chartOptions'></Chart>
     </div>

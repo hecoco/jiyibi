@@ -250,7 +250,7 @@ export default class Statistics extends Vue {
 
 ::v-deep .details-tabs-item {
   height: 34px !important;
-  padding: 0 16px;
+  padding: 0 10px;
   background: #1B2838;
   color: #4f94bc;
 
@@ -278,6 +278,7 @@ export default class Statistics extends Vue {
 .noResult {
   padding: 16px;
   text-align: center;
+  color: #8A97A0  ;
 }
 
 %item {
