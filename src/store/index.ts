@@ -16,7 +16,8 @@ const store = new Vuex.Store({
         newRecordList: [] as RecordItem[],
         Month: {zc: 0, sr: 0} as { zc: number, sr: number },//月收入/支出
         result: {} as Result,
-        statisticsTags:{} as {title:string,value:number,name:string}[]
+        statisticsTags:{} as {title:string,value:number,name:string}[],
+        getAmountAndTagsName:[] as {value:number,name:string}[]
     },
     mutations: {
         fetchRecords(state) {
@@ -106,16 +107,20 @@ const store = new Vuex.Store({
             }
             return state.newRecordList;
         },
-        xxxx(state, {type, createdAt}) {
-            let newList = clone(state.recordList).filter((r: RecordItem) => r.type === type)
+        xxxx(state, type) {
+            const newList = clone(state.recordList).filter((r: RecordItem) => r.type === type.type)
                 .sort(
                     (a: RecordItem, b: RecordItem) =>
                         dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
                 );
+                    for(let i = 0;i<newList.length;i++){
+                        console.log(newList[i].amount)
+                        console.log(newList[i].tags.name)
+                    }
+                    console.log('=-=')
             if (newList.length === 0) {
                 return state.result=[];
             }
-            console.log(newList);
             state.result = [
                 {
                     title: dayjs(newList[0].createdAt).format("YYYY-MM-DD"),
@@ -139,6 +144,19 @@ const store = new Vuex.Store({
             });
             console.log(state.result);
             return state.result;
+        },
+        // 获取指定月份全部的标签名和金额
+        getAmount(state,type){
+            const newList = clone(state.recordList).filter((r: RecordItem) => r.type === type.type);
+            for(let i = 0;i<newList.length;i++){
+                state.getAmountAndTagsName.push(
+            {
+                        value:newList[i].amount,
+                        name:newList[i].tags.name
+                    }
+                );
+            }
+            return state.getAmountAndTagsName;            
         },
         statisticsTags(state,type){
             //{title:2022-03,total:171,name:'房租'}

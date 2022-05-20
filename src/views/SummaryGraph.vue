@@ -16,7 +16,7 @@ import {Component, Vue} from "vue-property-decorator";
 import Chart from "@/components/Chart.vue"
 import dayjs from "dayjs";
 import DatePicker from "vue2-datepicker";
-import _ from 'lodash'
+import _, { values } from 'lodash'
 import detailsList from "@/constant/detailsList";
 import recordTypeList from "@/constant/recordTypeList";
 import Tabs from "@/components/Tabs.vue";
@@ -49,16 +49,22 @@ export default class SummaryGraph extends Vue {
     return this.$store.state.result;
   }
   get keyValueList(){
-    const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM-01');
+    const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM');
+    console.log(this.recordList)
+    console.log(1)
+    console.log(this.type)
     const array = [];
     for (let i=0;i<dayjs(today).daysInMonth();i++){//循环每月的天数
       const dateString = i+1
-      const found = _.find(this.resultList,{
-        title : dayjs(today).add(i,'day')
-            .format('YYYY-MM-DD')
-      });
+      const found = _.find(
+        this.resultList,
+        {
+          title : dayjs(today).add(i,'day').format('YYYY-MM-DD')
+        }
+      );
       array.push({
-        key:dateString,value:found ? found.total : 0
+        key: dateString,
+        value: found ? found.total : 0
       })
     }
     array.sort((a,b)=>{
@@ -72,6 +78,11 @@ export default class SummaryGraph extends Vue {
     })
     return array;
   }
+  get yyy(){
+    const m =  dayjs(this.createdAt).format('YYYY-MM')
+    this.resultList;
+    return "";
+  }
   di(date:Date){
     let hour = date.getHours()+8;
     date.setHours(hour);//设置当前时区
@@ -79,67 +90,105 @@ export default class SummaryGraph extends Vue {
     x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
     this.createdAt = dayjs(date.toISOString()).format('YYYY-MM');
   }
-  get chartOptions() {
-    const keys =this.keyValueList.map(item=>item.key)
+  //圆盘
+  get chartOptions(){
+    console.log("==")
+    const y =  this.$store.state.getAmountAndTagsName
+    // console.log(y);
+    const keys =this.keyValueList
     console.log(keys)
-    const values =this.keyValueList.map(item=>item.value)
-    return {
-      grid: {
-        left: 0,
-        right: 0,
-      },
-      backgroundColor:"rgba(42, 71, 94,1)",
-      xAxis: {
-        type: 'category',
-        axisTick:{alignWithLabel:true},
-        data: keys,
-        axisLabel:{
-          // formatter: function (value:string,index:number){
-          //   return value.substr(9)
-          // },
-          color:"rgba(98, 185, 236,1)",
-          // lineHeight: 24,
-          interval: 0,
-          fontSize: 10
-        },
-      },
-      yAxis: {
-        type: 'value',
-        show: false
-      },
-      series: [{
-        // symbolSize:12,
-        data: values,
-        type: 'bar',
-        markPoint:{
-          symbol:"pin",
-          symbolSize:'8'
-        },
-        itemStyle:{
-          normal:{
-          color:"rgba(102, 192, 244,1)",
-            label:{
-              show:true,//在统计图上显示全部数值
-              position:'top',
-              textStyle:{
-                color:"rgba(102, 192, 244,1)",
-                fontSize:8
-              }
+    console.log("==")
+    const array = [];
+    const newList = this.recordList.filter((r:RecordItem)=>r.type === this.type);
+    for(let i = 0;i<newList.length;i++){
+                array.push(
+                    {
+                        value:newList[i].amount,
+                        name:newList[i].tags.name
+                    }
+                );
             }
-          }
-        },
-        barWidth:4,
-      }],
+    console.log(array)
+    return {
+      series: [{
+    type: "pie",
+    data: y,
+    width:'80%',
+    left:'10%',
+    right:'10%',
+    label:{
+      formatter:'{b}'+'{d}'+'%'
+    }
+  }]
     };
   }
+  //条形统计图
+  // get chartOptions() {
+  //   const keys =this.keyValueList.map(item=>item.key)
+  //   const values =this.keyValueList.map(item=>item.value)
+  //   console.log("==")
+  //   console.log(this.recordList)
+  //   console.log("==")
+
+  //   return {
+  //     grid: {
+  //       left: 0,
+  //       right: 0,
+  //     },
+  //     backgroundColor:"rgba(42, 71, 94,1)",
+  //     xAxis: {
+  //       type: 'category',
+  //       axisTick:{alignWithLabel:true},
+  //       data: keys,
+  //       axisLabel:{
+  //         // formatter: function (value:string,index:number){
+  //         //   return value.substr(9)
+  //         // },
+  //         color:"rgba(98, 185, 236,1)",
+  //         // lineHeight: 24,
+  //         interval: 0,
+  //         fontSize: 10
+  //       },
+  //     },
+  //     yAxis: {
+  //       type: 'value',
+  //       show: false
+  //     },
+  //     series: [{
+  //       // symbolSize:12,
+  //       data: values,
+  //       type: 'bar',
+  //       markPoint:{
+  //         symbol:"pin",
+  //         symbolSize:'8'
+  //       },
+  //       itemStyle:{
+  //         normal:{
+  //         color:"rgba(102, 192, 244,1)",
+  //           label:{
+  //             show:true,//在统计图上显示全部数值
+  //             position:'top',
+  //             textStyle:{
+  //               color:"rgba(102, 192, 244,1)",
+  //               fontSize:8
+  //             }
+  //           }
+  //         }
+  //       },
+  //       barWidth:4,
+  //     }],
+  //   };
+  // }
   mounted() {
     // (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
     this.$store.commit('fetchRecords');
+    this.$store.commit('getAmount', {type:this.type,createdAt:this.createdAt});
     this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
+
   }
   detailsList=detailsList
   recordTypeList=recordTypeList
-};
+  }
 </script>
 
 <style scoped lang="scss">

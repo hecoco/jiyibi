@@ -19,12 +19,10 @@ import NumberPad from "@/components/money/NumberPad.vue";
 import FormItem from "@/components/money/FormItem.vue";
 import Tags from "@/components/money/Tags.vue";
 import Tabs from "@/components/Tabs.vue";
-
 import Vue from "vue";
 import {Component} from "vue-property-decorator";
 import recordTypeList from "@/constant/recordTypeList";
 import dayjs from "dayjs";
-
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/zh-cn';
