@@ -150,7 +150,7 @@ const store = new Vuex.Store({
                     }
                 );
             }
-            return state.getAmountAndTagsName;            
+            return state.getAmountAndTagsName;
         },
         statisticsTags(state,type){
             //{title:2022-03,total:171,name:'房租'}

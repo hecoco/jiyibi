@@ -27,7 +27,7 @@
     <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index" class="day">
         <h3 class="title">
-          {{ beautify(group.title) }} <span v-if="type!='all'">总计：{{ group.total }}</span>
+          {{ beautify(group.title) }} <span v-if="type!=='all'">总计：{{ group.total }}</span>
         </h3>
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
@@ -103,7 +103,7 @@ export default class Statistics extends Vue {
 
   get groupedList() {
     const {recordList} = this;
-    let newList = clone(recordList);
+    let newList;
     if (this.type === "all") {
       newList = clone(recordList)
           .filter((r: RecordItem) =>
@@ -146,8 +146,10 @@ export default class Statistics extends Vue {
       if (dayjs(last.title).isSame(dayjs(current.createdAt), "day")) {
         last.items.push(current);
       } else {
+        console.log(dayjs(current.createdAt).format('YYYY-MM-DD'));
+        console.log('1212')
         result.push({
-          title: dayjs(current.createdAt).format("YYYY-MM-DD"),
+          title: dayjs(current.createdAt).format('YYYY-MM-DD'),
           items: [current],
         });
       }
@@ -157,10 +159,13 @@ export default class Statistics extends Vue {
     });
     return result;
   }
-
   // 格式化
   beautify(string: string) {
+    console.log('===')
+    console.log(string)
     const day = dayjs(string);
+    console.log(day)
+    console.log('===')
     const now = dayjs();
     const week = [
       "星期天",
@@ -171,13 +176,15 @@ export default class Statistics extends Vue {
       "星期五",
       "星期六",
     ];
-    if (day.isSame(now, "day")) {
+    console.log('==')
+    console.log(string)
+    console.log('==')
+    if (day.isSame(now, "date")) {
       return "今天";
     } else if (day.isSame(now.subtract(1, "day"), "day")) {
       return "昨天";
-    } else if (day.isSame(now.subtract(2, "day"), "day")) {
-      return "前天";
-    } else if (day.isSame(now, "year")) {
+    } else 
+    if (day.isSame(now, "year")) {
       return day.format("M月D日") + " " + week[parseInt(day.format("d"))];
     } else {
       return day.format("YYYY年M月D日");

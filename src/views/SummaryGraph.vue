@@ -75,11 +75,6 @@ export default class SummaryGraph extends Vue {
     })
     return array;
   }
-  get yyy(){
-    const m =  dayjs(this.createdAt).format('YYYY-MM')
-    this.resultList;
-    return "";
-  }
   di(date:Date){
     let hour = date.getHours()+8;
     date.setHours(hour);//设置当前时区

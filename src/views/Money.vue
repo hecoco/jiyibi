@@ -39,7 +39,7 @@ export default class Money extends Vue {
     formItem: "",
     type: "-",
     amount: 0,
-    createdAt: new Date(+new Date() + 8 * 3600 * 1000).toISOString(),//设置当前时区
+    createdAt: new Date().toISOString(),//设置当前时区
   }
 
   di(date: Date) {
