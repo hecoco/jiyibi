@@ -50,9 +50,6 @@ export default class SummaryGraph extends Vue {
   }
   get keyValueList(){
     const today = dayjs(this.createdAt===''?new Date():this.createdAt).format('YYYY-MM');
-    console.log(this.recordList)
-    console.log(1)
-    console.log(this.type)
     const array = [];
     for (let i=0;i<dayjs(today).daysInMonth();i++){//循环每月的天数
       const dateString = i+1
@@ -92,27 +89,11 @@ export default class SummaryGraph extends Vue {
   }
   //圆盘
   get chartOptions(){
-    console.log("==")
-    const y =  this.$store.state.getAmountAndTagsName
-    // console.log(y);
-    const keys =this.keyValueList
-    console.log(keys)
-    console.log("==")
-    const array = [];
-    const newList = this.recordList.filter((r:RecordItem)=>r.type === this.type);
-    for(let i = 0;i<newList.length;i++){
-                array.push(
-                    {
-                        value:newList[i].amount,
-                        name:newList[i].tags.name
-                    }
-                );
-            }
-    console.log(array)
+    const getAmountAndTagsName =  this.$store.state.getAmountAndTagsName
     return {
       series: [{
     type: "pie",
-    data: y,
+    data: getAmountAndTagsName,
     width:'80%',
     left:'10%',
     right:'10%',
@@ -180,7 +161,6 @@ export default class SummaryGraph extends Vue {
   //   };
   // }
   mounted() {
-    // (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
     this.$store.commit('fetchRecords');
     this.$store.commit('getAmount', {type:this.type,createdAt:this.createdAt});
     this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});

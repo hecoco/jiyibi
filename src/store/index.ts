@@ -40,7 +40,6 @@ const store = new Vuex.Store({
         createTag(state, {name, type}) {
             const id = createId().toString();
             const names = state.tagList.map(item => item.name);
-            console.log(names);
             if (names.indexOf(name) >= 0) {
                 window.alert("标签名重复");
                 return 'duplicated';
@@ -59,7 +58,6 @@ const store = new Vuex.Store({
                 }
             }
             state.tagList.splice(index, 1);
-            console.log(state.tagList);
             store.commit('saveTags');
             return true;
         },
@@ -99,7 +97,6 @@ const store = new Vuex.Store({
                     for (let n in item.tags) {
                         // @ts-ignore
                         if (item.tags[n].id === ids) {
-                            console.log(item);
                             state.newRecordList.push(item);
                         }
                     }
@@ -113,11 +110,6 @@ const store = new Vuex.Store({
                     (a: RecordItem, b: RecordItem) =>
                         dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
                 );
-                    for(let i = 0;i<newList.length;i++){
-                        console.log(newList[i].amount)
-                        console.log(newList[i].tags.name)
-                    }
-                    console.log('=-=')
             if (newList.length === 0) {
                 return state.result=[];
             }
@@ -142,7 +134,6 @@ const store = new Vuex.Store({
             state.result.map((group) => {
                 group.total = group.items.reduce((sum, item) => sum + toNumber(item.amount), 0);//??
             });
-            console.log(state.result);
             return state.result;
         },
         // 获取指定月份全部的标签名和金额
@@ -164,15 +155,12 @@ const store = new Vuex.Store({
             if (newList.length === 0) {
                 return state.result=[];
             }
-            console.log('---------------------')
             for (let i=0;i< state.tagList.length;i++){
                 const a = state.tagList[i].id;
 
                 for (let n=0;i<newList.length;n++){
                     const b = newList[n].tags.id;
-                    console.log(a,b)
                     const xx = _.find(newList,{a:b})
-                    console.log(xx)
                 }
                 // console.log("newList")
                 // console.log(newList[i].tags);

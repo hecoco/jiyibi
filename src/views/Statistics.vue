@@ -87,7 +87,6 @@ export default class Statistics extends Vue {
         ? (this.dateX = dayjs(date.toISOString()).format("M月"))
         : (this.dateX = dayjs(date.toISOString()).format("YYYY年M月"));
     this.createdAt = dayjs(date.toISOString()).format("YYYY-MM");
-    console.log(this.createdAt);
     this.$store.commit(
         "inquireMonth",
         dayjs(date.toISOString()).format("YYYY-MM")
