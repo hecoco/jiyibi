@@ -89,7 +89,7 @@ export default class SummaryGraph extends Vue {
   }
   //圆盘
   get chartOptions(){
-    const getAmountAndTagsName =  this.$store.state.getAmountAndTagsName
+    const getAmountAndTagsName =  this.$store.state.getAmountAndTagsName.filter((r: RecordItem) => r.type === this.type);
     return {
       series: [{
     type: "pie",

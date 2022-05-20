@@ -2,6 +2,7 @@
 node_modules
 /dist
 CNAME
+/src/views/Home.vue
 
 
 # local env files

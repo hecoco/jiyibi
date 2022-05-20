@@ -17,7 +17,7 @@ const store = new Vuex.Store({
         Month: {zc: 0, sr: 0} as { zc: number, sr: number },//月收入/支出
         result: {} as Result,
         statisticsTags:{} as {title:string,value:number,name:string}[],
-        getAmountAndTagsName:[] as {value:number,name:string}[]
+        getAmountAndTagsName:[] as {value:number,name:string,type:string}[]
     },
     mutations: {
         fetchRecords(state) {
@@ -138,12 +138,15 @@ const store = new Vuex.Store({
         },
         // 获取指定月份全部的标签名和金额
         getAmount(state,type){
-            const newList = clone(state.recordList).filter((r: RecordItem) => r.type === type.type);
+            const newList = clone(state.recordList);
+            console.log(newList)
+            state.getAmountAndTagsName=[];
             for(let i = 0;i<newList.length;i++){
                 state.getAmountAndTagsName.push(
             {
                         value:newList[i].amount,
-                        name:newList[i].tags.name
+                        name:newList[i].tags.name,
+                        type:newList[i].type
                     }
                 );
             }
