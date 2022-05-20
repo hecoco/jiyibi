@@ -157,7 +157,7 @@ export default class SummaryGraph extends Vue {
   // }
   mounted() {
     this.$store.commit('fetchRecords');
-    this.$store.commit('getAmount', {type:this.type,createdAt:this.createdAt});
+    this.$store.commit('getAmount');
     this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
 
   }

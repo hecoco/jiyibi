@@ -137,9 +137,8 @@ const store = new Vuex.Store({
             return state.result;
         },
         // 获取指定月份全部的标签名和金额
-        getAmount(state,type){
+        getAmount(state){
             const newList = clone(state.recordList);
-            console.log(newList)
             state.getAmountAndTagsName=[];
             for(let i = 0;i<newList.length;i++){
                 state.getAmountAndTagsName.push(
@@ -150,6 +149,18 @@ const store = new Vuex.Store({
                     }
                 );
             }
+            for(let i=0; i<state.getAmountAndTagsName.length; i++){
+                for(let j=i+1; j<state.getAmountAndTagsName.length; j++){
+                    if(state.getAmountAndTagsName[i].name===state.getAmountAndTagsName[j].name){        //第一个等同于第二个，splice方法删除第二个
+                        state.getAmountAndTagsName[i].value=state.getAmountAndTagsName[i].value+state.getAmountAndTagsName[j].value
+                        state.getAmountAndTagsName.splice(j,1);
+                        j--;
+                    }
+                }
+            }
+
+
+
             return state.getAmountAndTagsName;
         },
         statisticsTags(state,type){

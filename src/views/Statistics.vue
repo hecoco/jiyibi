@@ -146,10 +146,8 @@ export default class Statistics extends Vue {
       if (dayjs(last.title).isSame(dayjs(current.createdAt), "day")) {
         last.items.push(current);
       } else {
-        console.log(dayjs(current.createdAt).format('YYYY-MM-DD'));
-        console.log('1212')
         result.push({
-          title: dayjs(current.createdAt).format('YYYY-MM-DD'),
+          title: dayjs(current.createdAt).format('YYYY-MM-DD'),//会对current.createdAt以ISO 8601 格式解析
           items: [current],
         });
       }
@@ -161,11 +159,7 @@ export default class Statistics extends Vue {
   }
   // 格式化
   beautify(string: string) {
-    console.log('===')
-    console.log(string)
     const day = dayjs(string);
-    console.log(day)
-    console.log('===')
     const now = dayjs();
     const week = [
       "星期天",
@@ -176,9 +170,6 @@ export default class Statistics extends Vue {
       "星期五",
       "星期六",
     ];
-    console.log('==')
-    console.log(string)
-    console.log('==')
     if (day.isSame(now, "date")) {
       return "今天";
     } else if (day.isSame(now.subtract(1, "day"), "day")) {
