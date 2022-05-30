@@ -5,8 +5,11 @@
                    :placeholder=dateX @input="di" class="dates"></date-picker>
       <Tabs class="xxx" :value.sync="type" :data-source="recordTypeList" class-prefix="details"/>
     </div>
-    <div class="chart-wrapper" ref="chartWrapper">
+    <div class="chart-wrapper" ref="chartWrapper" v-if="chartOptions">
       <Chart class="chart" :options='chartOptions'></Chart>
+    </div>
+    <div class="kong" v-else>
+      <span>暂无数据</span>
     </div>
   </layout>
 </template>
@@ -85,18 +88,21 @@ export default class SummaryGraph extends Vue {
   //圆盘
   get chartOptions(){
     const getAmountAndTagsName =  this.$store.state.getAmountAndTagsName.filter((r: RecordItem) => r.type === this.type);
-    return {
-      series: [{
-    type: "pie",
-    data: getAmountAndTagsName,
-    width:'80%',
-    left:'10%',
-    right:'10%',
-    label:{
-      formatter:'{b}'+'{d}'+'%'
+    if(getAmountAndTagsName.length>0){
+      return {
+        series: [{
+          type: "pie",
+          data: getAmountAndTagsName,
+          width:'80%',
+          left:'10%',
+          right:'10%',
+          label:{
+            formatter:'{b}'+'{d}'+'%'
+          }
+        }]
+      }
     }
-  }]
-    };
+    return null;
   }
   //条形统计图
   // get chartOptions() {
@@ -167,6 +173,9 @@ export default class SummaryGraph extends Vue {
 </script>
 
 <style scoped lang="scss">
+.kong{
+  color: #67c1f5;
+}
 .title{
   color: #67c1f5;
   display: flex;
