@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import clone from "@/lib/clone";
 import createId from "@/lib/createld";
 import dayjs from "dayjs"
-import {toNumber} from "lodash";
+import {round, toNumber} from "lodash";
 import _ from 'lodash'
 
 type Result = { title: string; total?: number; items: RecordItem[] }[];
@@ -89,6 +89,8 @@ const store = new Vuex.Store({
                     }
                 }
             }
+            state.Month.zc = _.floor(state.Month.zc,2)
+            state.Month.sr = _.floor(state.Month.sr,2)
         },
         inquireRecord(state, ids: string) {
             const idList = state.tagList.map(item => item.id);
@@ -152,15 +154,13 @@ const store = new Vuex.Store({
             for(let i=0; i<state.getAmountAndTagsName.length; i++){
                 for(let j=i+1; j<state.getAmountAndTagsName.length; j++){
                     if(state.getAmountAndTagsName[i].name===state.getAmountAndTagsName[j].name){        //第一个等同于第二个，splice方法删除第二个
-                        state.getAmountAndTagsName[i].value=state.getAmountAndTagsName[i].value+state.getAmountAndTagsName[j].value
+                        state.getAmountAndTagsName[i].value = toNumber(state.getAmountAndTagsName[i].value)+toNumber(state.getAmountAndTagsName[j].value)
+                        state.getAmountAndTagsName[i].value = _.floor(state.getAmountAndTagsName[i].value,2)//四舍五入
                         state.getAmountAndTagsName.splice(j,1);
                         j--;
                     }
                 }
             }
-
-
-
             return state.getAmountAndTagsName;
         },
         statisticsTags(state,type){
