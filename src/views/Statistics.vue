@@ -80,17 +80,10 @@ export default class Statistics extends Vue {
   di(date: Date) {
     let hour = date.getHours() + 8;
     date.setHours(hour); //设置当前时区
-    const x =
-        dayjs(date.toISOString()).format("YYYY") ===
-        dayjs(new Date()).format("YYYY");
-    x
-        ? (this.dateX = dayjs(date.toISOString()).format("M月"))
-        : (this.dateX = dayjs(date.toISOString()).format("YYYY年M月"));
+    const x = dayjs(date.toISOString()).format("YYYY") === dayjs(new Date()).format("YYYY");
+    x ? (this.dateX = dayjs(date.toISOString()).format("M月")) : (this.dateX = dayjs(date.toISOString()).format("YYYY年M月"));
     this.createdAt = dayjs(date.toISOString()).format("YYYY-MM");
-    this.$store.commit(
-        "inquireMonth",
-        dayjs(date.toISOString()).format("YYYY-MM")
-    );
+    this.$store.commit("inquireMonth", dayjs(date.toISOString()).format("YYYY-MM"));
   }
 
   get recordList() {

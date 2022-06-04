@@ -79,6 +79,7 @@ const store = new Vuex.Store({
         //月份
         inquireMonth(state, date) {
             state.Month = {zc: 0, sr: 0}
+            console.log(date)
             for (let key in state.recordList) {
                 const xxx = date === dayjs(state.recordList[key].createdAt).format('YYYY-MM')
                 if (xxx) {
@@ -139,8 +140,12 @@ const store = new Vuex.Store({
             return state.result;
         },
         // 获取指定月份全部的标签名和金额
-        getAmount(state){
-            const newList = clone(state.recordList);
+        getAmount(state,date){
+            console.log(date)
+            const newList = clone(state.recordList).filter((r: RecordItem) =>
+            date ===
+            dayjs(r.createdAt).format("YYYY-MM")
+    );
             state.getAmountAndTagsName=[];
             for(let i = 0;i<newList.length;i++){
                 state.getAmountAndTagsName.push(
@@ -151,6 +156,7 @@ const store = new Vuex.Store({
                     }
                 );
             }
+            console.log(state.getAmountAndTagsName)
             for(let i=0; i<state.getAmountAndTagsName.length; i++){
                 for(let j=i+1; j<state.getAmountAndTagsName.length; j++){
                     if(state.getAmountAndTagsName[i].name===state.getAmountAndTagsName[j].name){        //第一个等同于第二个，splice方法删除第二个

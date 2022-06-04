@@ -1,5 +1,6 @@
 <template>
   <layout>
+    {{createdAt}}
     <div class="yyy">
       <date-picker :editable=editable type="month"
                    :placeholder=dateX @input="di" class="dates"></date-picker>
@@ -11,7 +12,7 @@
     <div class="kong" v-else>
       <span>暂无数据</span>
     </div>
-    <div class="ss">
+    <div class="ss" v-if="chartOptions">
       <h2>消费排行</h2>
       <div v-for="s in getTopFiveAmount"  class="row">
         <Icon :name='s.tags.svg' class="icon"></Icon>
@@ -100,6 +101,7 @@ export default class SummaryGraph extends Vue {
     const x = dayjs(date.toISOString()).format('YYYY') === dayjs(new Date(+new Date()+8*3600*1000)).format('YYYY')
     x ? this.dateX = dayjs(date.toISOString()).format('M月') : this.dateX = dayjs(date.toISOString()).format('YYYY年M月')
     this.createdAt = dayjs(date.toISOString()).format('YYYY-MM');
+    this.$store.commit('getAmount',this.createdAt);
   }
   //圆盘
   get chartOptions(){
@@ -124,6 +126,9 @@ export default class SummaryGraph extends Vue {
   //获取指定月份支出/消费前5
   get getTopFiveAmount(){
     const recordList = clone(this.recordList).filter( (r: RecordItem) => r.type===this.type).filter((r: RecordItem) =>
+                  dayjs(this.createdAt).format("YYYY-MM") ===
+                  dayjs(r.createdAt).format("YYYY-MM")
+          ).filter((r: RecordItem) =>
                   r.createdAt = dayjs(r.createdAt).format("YYYY年MM月DD日")
           ).sort(
           (a: RecordItem, b: RecordItem) =>
@@ -190,8 +195,7 @@ export default class SummaryGraph extends Vue {
   // }
   mounted() {
     this.$store.commit('fetchRecords');
-    this.$store.commit('getAmount');
-    this.$store.commit('getTopFiveAmount');
+    this.$store.commit('getAmount',this.createdAt);
     this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
 
   }
