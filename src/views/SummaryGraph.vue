@@ -11,6 +11,22 @@
     <div class="kong" v-else>
       <span>暂无数据</span>
     </div>
+    <div class="ss">
+      <h2>消费排行</h2>
+      <div v-for="s in getTopFiveAmount"  class="row">
+        <Icon :name='s.tags.svg' class="icon"></Icon>
+        <div class="asd">
+          <div class="flex">
+            <span>{{s.tags.name}} </span>
+            <span>{{s.type==='+'?'':'-'}} {{s.amount}} </span>
+          </div>
+          <div class="flex ji-font">
+            <span> {{s.formItem===''?null:s.formItem}} </span>
+            <span> {{s.createdAt}} </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </layout>
 </template>
 
@@ -105,6 +121,15 @@ export default class SummaryGraph extends Vue {
     }
     return null;
   }
+  get getTopFiveAmount(){
+    const recordList = clone(this.recordList).filter( (r: RecordItem) => r.type===this.type).filter((r: RecordItem) =>
+                  r.createdAt = dayjs(r.createdAt).format("YYYY年MM月DD日")
+          ).sort(
+          (a: RecordItem, b: RecordItem) =>
+                  b.amount- a.amount
+          ).slice(0,5)
+    return recordList;
+  }
   //条形统计图
   // get chartOptions() {
   //   const keys =this.keyValueList.map(item=>item.key)
@@ -165,6 +190,7 @@ export default class SummaryGraph extends Vue {
   mounted() {
     this.$store.commit('fetchRecords');
     this.$store.commit('getAmount');
+    this.$store.commit('getTopFiveAmount');
     this.$store.commit('xxxx', {type:this.type,createdAt:this.createdAt});
 
   }
@@ -173,7 +199,34 @@ export default class SummaryGraph extends Vue {
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+.ji-font{
+  color: #647580;
+  font-size: 0.9em;
+}
+.row{
+  display: flex;
+  flex-direction:row;
+  padding: 6px;
+  margin-top: 6px;
+  background: #0E151D;
+}
+.asd{
+  width: 100%;
+}
+.flex{
+  display: flex;
+  justify-content: space-between;
+}
+.icon{
+  width: 2.5em !important;
+  height: 2.5em !important;
+  margin-right:10px
+}
+.ss{
+  color: #67c1f5;
+  margin:1.3em
+}
 .kong{
   color: #67c1f5;
 }
