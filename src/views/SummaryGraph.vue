@@ -97,7 +97,8 @@ export default class SummaryGraph extends Vue {
           left:'10%',
           right:'10%',
           label:{
-            formatter:'{b}'+'{d}'+'%'
+            formatter:'{b}: '+'{d}'+'%'+'\n'+'{c}元',
+            overflow:'breakAll'
           }
         }]
       }
