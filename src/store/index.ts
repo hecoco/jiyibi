@@ -163,12 +163,6 @@ const store = new Vuex.Store({
             }
             return state.getAmountAndTagsName;
         },
-        //获取指定月份支出/消费前5
-        getTopFiveAmount(state){
-            const newList = clone(state.recordList);
-            return newList;
-        },
-
         statisticsTags(state,type){
             //{title:2022-03,total:171,name:'房租'}
             let newList = clone(state.recordList).filter((r: RecordItem) => r.type === type);

@@ -121,6 +121,7 @@ export default class SummaryGraph extends Vue {
     }
     return null;
   }
+  //获取指定月份支出/消费前5
   get getTopFiveAmount(){
     const recordList = clone(this.recordList).filter( (r: RecordItem) => r.type===this.type).filter((r: RecordItem) =>
                   r.createdAt = dayjs(r.createdAt).format("YYYY年MM月DD日")
