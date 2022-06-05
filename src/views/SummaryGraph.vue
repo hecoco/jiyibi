@@ -229,8 +229,11 @@ export default class SummaryGraph extends Vue {
   margin-right:10px
 }
 .ss{
-  color: #67c1f5;
-  margin:1.3em
+  color: #c1dbf4;
+  margin:1.3em;
+  >h2{
+    color: #67c1f5;
+  }
 }
 .kong{
   color: #67c1f5;
