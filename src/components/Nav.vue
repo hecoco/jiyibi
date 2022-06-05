@@ -27,7 +27,6 @@ export default {
 
 nav {
   display: flex;
-  //box-shadow: 0 0 3px reba(0, 0, 0, 0.25);
   flex-direction: row;
   > .item {
     color: #1B435E;

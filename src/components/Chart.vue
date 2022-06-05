@@ -23,7 +23,7 @@ export default class Chart extends Vue{
   onOptionsChange(newValue: EChartOption) {
     this.chart!.setOption(newValue);
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

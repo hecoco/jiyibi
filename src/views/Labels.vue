@@ -89,12 +89,6 @@ export default class Labels extends Vue {
 </script>
 
 <style lang="scss" scoped>
-//input[type=number]::-webkit-inner-spin-button,
-//input[type=number]::-webkit-outer-spin-button {
-//  -webkit-appearance: none;
-//  appearance: none;
-//}
-
 .tags {
   background: white;
   font-size: 16px;
@@ -114,9 +108,7 @@ export default class Labels extends Vue {
         color: white;
         margin-right: 16px;
       }
-
     }
-
     > .contenta {
       display: none;
       background: #767676;

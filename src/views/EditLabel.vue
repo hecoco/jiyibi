@@ -21,17 +21,8 @@ import FormItem from "@/components/money/FormItem.vue";
   components: { FormItem },
 })
 export default class EditLabel extends Vue {
-  // props: [FormItem] | undefined;
   created() {
     const id = this.$route.params.id;
-    //tagsListModel.fetch();
-    //const tags = tagsListModel.data;
-   // const tag = tags.filter((t) => t.id === id)[0];
-   //  if (tag) {
-   //    console.log(tag);
-   //  } else {
-   //    this.$router.replace("/404");
-   //  }
   }
 }
 </script>
@@ -40,15 +31,4 @@ export default class EditLabel extends Vue {
 .icon {
   transform: rotate(180deg);
 }
-// .navBar {
-//   text-align: center;
-//   font-size: 16px;
-//   padding: 12px 16px;
-//   background: white;
-//   position: relative;
-//   > .leftIcon {
-//     position: absolute;
-//     left: 16px;
-//   }
-// }
 </style>

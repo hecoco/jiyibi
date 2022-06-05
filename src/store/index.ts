@@ -79,7 +79,6 @@ const store = new Vuex.Store({
         //月份
         inquireMonth(state, date) {
             state.Month = {zc: 0, sr: 0}
-            console.log(date)
             for (let key in state.recordList) {
                 const xxx = date === dayjs(state.recordList[key].createdAt).format('YYYY-MM')
                 if (xxx) {
@@ -170,7 +169,6 @@ const store = new Vuex.Store({
             return state.getAmountAndTagsName;
         },
         statisticsTags(state,type){
-            //{title:2022-03,total:171,name:'房租'}
             let newList = clone(state.recordList).filter((r: RecordItem) => r.type === type);
             if (newList.length === 0) {
                 return state.result=[];
@@ -182,10 +180,6 @@ const store = new Vuex.Store({
                     const b = newList[n].tags.id;
                     const xx = _.find(newList,{a:b})
                 }
-                // console.log("newList")
-                // console.log(newList[i].tags);
-                // console.log("state")
-                // console.log(state.tagList[i]);
             }
             return;
         }

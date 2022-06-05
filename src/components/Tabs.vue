@@ -26,7 +26,7 @@ export default class Tabs extends Vue{
       [this.classPrefix + '-tabs-item']: this.classPrefix,
       selected: item.value===this.value
     };
-  };
+  }
 
   select(item:DataSourceItem){
       this.$emit('update:value',item.value)
@@ -43,7 +43,6 @@ export default class Tabs extends Vue{
   color: #4F94BC;
   &-item {
     width: 50%;
-    //height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
