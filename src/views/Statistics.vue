@@ -24,6 +24,9 @@
         <span>￥{{ Month.sr }}</span>
       </div>
     </div>
+    <div class="di" v-html="diWidth">
+      <!--  -->
+    </div>
     <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index" class="day">
         <h3 class="title">
@@ -75,6 +78,15 @@ export default class Statistics extends Vue {
 
   get Month() {
     return this.$store.state.Month;
+  }
+
+  //收入支出比
+  get diWidth(){
+    const style = "height: .3em; border-radius:4px;"
+    const zcPercentages = Math.round(this.Month.zc / this.Month.sr ) * this.Month.sr;
+    const zc = "<div style='background:#67C1F5;"+style+"width: calc( 100vw - 16px - "+zcPercentages+"vw )'></div>";
+    const sr = "<div style='background:#42B983;"+style+"width: calc( 100vw - 16px - "+(100-zcPercentages)+"vw )'></div>";
+    return zc+sr;
   }
 
   di(date: Date) {
@@ -189,6 +201,11 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.di{
+  margin: 0 16px;
+  display: flex;
+  flex-direction: row;
+}
 .day {
   margin: 16px 20px;
 }
