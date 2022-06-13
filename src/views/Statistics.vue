@@ -84,7 +84,8 @@ export default class Statistics extends Vue {
   get diWidth(){
     const style = "height: .3em; border-radius:4px;"
     const srPercentages = Math.round(this.Month.zc / this.Month.sr ) * this.Month.sr;
-    const zc = "<div style='background:#67C1F5;"+style+"width: calc( 100vw - "+(100-srPercentages)+"vw )'></div>";
+    const zcPercentages = Math.round(this.Month.sr / this.Month.zc ) * this.Month.zc;
+    const zc = "<div style='background:#67C1F5;"+style+"width: calc( 100vw - "+zcPercentages+"vw )'></div>";
     const sr = "<div style='background:#f37773;"+style+"width: calc( 100vw - "+srPercentages+"vw )'></div>";
     return zc+sr;
   }
