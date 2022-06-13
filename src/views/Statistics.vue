@@ -21,7 +21,7 @@
       </div>
       <div>
         <span>{{ dateX }}收入:</span>
-        <span>￥{{ Month.sr }}</span>
+        <span style="color:#f37773">￥{{ Month.sr }}</span>
       </div>
     </div>
     <div class="di" v-html="diWidth">
@@ -83,9 +83,9 @@ export default class Statistics extends Vue {
   //收入支出比
   get diWidth(){
     const style = "height: .3em; border-radius:4px;"
-    const zcPercentages = Math.round(this.Month.zc / this.Month.sr ) * this.Month.sr;
-    const zc = "<div style='background:#67C1F5;"+style+"width: calc( 100vw - 16px - "+zcPercentages+"vw )'></div>";
-    const sr = "<div style='background:#42B983;"+style+"width: calc( 100vw - 16px - "+(100-zcPercentages)+"vw )'></div>";
+    const srPercentages = Math.round(this.Month.zc / this.Month.sr ) * this.Month.sr;
+    const zc = "<div style='background:#67C1F5;"+style+"width: calc( 100vw - "+(100-srPercentages)+"vw )'></div>";
+    const sr = "<div style='background:#f37773;"+style+"width: calc( 100vw - "+srPercentages+"vw )'></div>";
     return zc+sr;
   }
 
@@ -225,6 +225,8 @@ export default class Statistics extends Vue {
     > span:first-child {
       //color: #a0a09e;
       color: #8A97A0;
+      font-size: 0.8em;
+      margin-left:4px;
     }
 
     > span:last-child {

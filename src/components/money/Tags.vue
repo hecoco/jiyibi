@@ -13,7 +13,7 @@
         :class="{ selected: selectedTags.name === tag.name }"
         @click="toggle(tag)"
       >
-        <Icon :name=tag.svg.trim() />
+        <Icon :name="tag.svg.trim()" />
         <span>{{ tag.name }}</span>
       </li>
     </ul>

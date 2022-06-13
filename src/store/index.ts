@@ -20,9 +20,11 @@ const store = new Vuex.Store({
         getAmountAndTagsName:[] as {value:number,name:string,type:string}[]
     },
     mutations: {
+        //获取记账 localStorage
         fetchRecords(state) {
             state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
         },
+        //保存标签 localStorage
         saveTags(state) {
             window.localStorage.setItem('tagsList', JSON.stringify(state.tagList));
         },
@@ -31,9 +33,11 @@ const store = new Vuex.Store({
             state.recordList.push(record2);
             store.commit('saveRecords');//如果需要在这里调用store,需要定义store,在返回
         },
+        //保存记账 localStorage
         saveRecords(state) {
             window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
         },
+        //获取标签 localStorage
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagsList') || '[]');
         },
@@ -49,6 +53,7 @@ const store = new Vuex.Store({
             store.commit('saveTags');
             return 'success';
         },
+        //删除标签
         removeTag(state, id: string) {
             let index = -1;
             for (let i = 0; i < state.tagList.length; i++) {
@@ -61,6 +66,7 @@ const store = new Vuex.Store({
             store.commit('saveTags');
             return true;
         },
+        //修改标签
         updateTag(state, tag) {
             const idList = state.tagList.map(item => item.id);
             if (idList.indexOf(tag.id) >= 0) {

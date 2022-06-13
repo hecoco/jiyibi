@@ -1,6 +1,5 @@
 <template>
   <layout>
-    {{createdAt}}
     <div class="yyy">
       <date-picker :editable=editable type="month"
                    :placeholder=dateX @input="di" class="dates"></date-picker>
